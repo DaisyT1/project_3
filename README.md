@@ -7,11 +7,3 @@
 FANTASTIC 4
 
 
-Hello team
-
-
-Hola equipo
-
-Hello team
-
-Hello Hello Hello
