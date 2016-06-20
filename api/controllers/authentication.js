@@ -1,14 +1,3 @@
-# project_3
-
-
-INTRO....
-
-
-
-===============WIREFRAMES===============
----Authentication.js
-
-
 var jwt = require('jsonwebtoken');
 var secret = require('../config/tokens').secret;
 var User = require('../models/user');

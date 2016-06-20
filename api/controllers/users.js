@@ -1,13 +1,13 @@
 var User = require('../models/user');
 
 //============TEMP NEW USER FOR TESTING UNTIL WE HAVE AUTHENTICATION=================
-function usersNew(req, res) {
-    var user = new User(req.body);
-      user.save(function(err,user){
-        if (err) return res.status(500).json({ error: 'Error'});
-          res.json(user)
-    });
-  }
+// function usersNew(req, res) {
+//     var user = new User(req.body);
+//       user.save(function(err,user){
+//         if (err) return res.status(500).json({ error: 'Error'});
+//           res.json(user)
+//     });
+//   }
 ///////////////////////////////////////////////////////////////////////////////////////
 
 function usersIndex(req, res) {
@@ -44,7 +44,7 @@ function usersDelete(req, res) {
 }
 
 module.exports = {
-  new: usersNew,
+  
   index: usersIndex,
   show: usersShow,
   update: usersUpdate,

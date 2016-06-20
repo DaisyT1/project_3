@@ -1,3 +1,4 @@
+
 var Location = require('../models/location');
 
 function locationsCreate(req, res) {
