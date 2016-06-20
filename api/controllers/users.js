@@ -50,28 +50,39 @@ function addLocation(req, res) {
     if(err) return res.status(500).json({ message: err });
     if(!location) return res.status(404).json({message: "Could not find location"});
       User.findById( req.params.id, function(err, user) {
-              if((user.locations).indexOf(location.id) > -1){
-              return res.status(500).json({message: "This location already exists"});
-              } else {
-                user.locations.push(req.body.locations);
-                user.save(function(err,user){
-                  if(err) return res.json(err);
-                    res.json(user);
-                });
-              } 
+        if((user.locations).indexOf(location.id) > -1){
+        return res.status(500).json({message: "This location already exists"});
+        } else {
+          user.locations.push(req.body.locations);
+          user.save(function(err,user){
+            if(err) return res.json(err);
+              res.json(user);
+          });
+        } 
       });
   });
 }
 
-function allLocations(req, res) {
+function addFriend(req, res) {
+  User.findById(req.body.friends, function(err, user) {
+   if(err) return res.status(500).json({ message: err });
+   // if(!user) return res.status(404).json({message: "Could not find that user"});
+   User.findByIdAndUpdate(
+           req.params.id,
+           {$push: {"friends": user.friends}},
+           {safe: true, upsert: true, new : true},
+           function(err, user) {
+               return res.status(200).json({ user: user });
+           }
+       );
+ });
 }
 
 module.exports = {
-  
   index: usersIndex,
   show: usersShow,
   update: usersUpdate,
   delete: usersDelete,
   addLocation: addLocation,
-  allLocations: allLocations
+  addFriend: addFriend
 };
