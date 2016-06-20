@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-=======
-# project_3
-
-
-INTRO....
-
-
-
-===============WIREFRAMES===============
----Authentication.js
-
-<<<<<<< HEAD
->>>>>>> 849ebb973b5545dcf648f7dacf91abba97cc1517
-=======
-
 var jwt = require('jsonwebtoken');
 var secret = require('../config/tokens').secret;
 var User = require('../models/user');
@@ -47,4 +31,3 @@ module.exports = {
   login: login,
   register: register
 };
->>>>>>> 8faad4c7fce106f4f757ac55d4d264b315ef2d22

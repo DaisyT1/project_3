@@ -7,7 +7,8 @@ var bodyParser = require('body-parser')
 var routes = require("./config/routes.js")
 var mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/beers');
+
+mongoose.connect('mongodb://localhost/project3');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
