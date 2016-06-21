@@ -2,7 +2,6 @@ var jwt = require('jsonwebtoken');
 var secret = require('../config/tokens').secret;
 var User = require('../models/user');
 
-
 function login(req, res) {
 
   User.findOne({ email: req.body.email }, function(err, user) {
@@ -16,8 +15,6 @@ function login(req, res) {
     return res.status(200).json({ message: "Login successful", user: user, token: token });
   });
 }
-
-
 
 function register(req, res) {
   User.create(req.body.user, function(err, user) {
