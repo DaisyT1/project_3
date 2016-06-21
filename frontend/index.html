@@ -37,6 +37,7 @@
   </nav>
   <main>
     <div class="container">
+
       <div class="form" id="register">
         <form id="register" >
           <input type="text" name='name' placeholder="Name">
@@ -46,6 +47,7 @@
           <input type="submit" value='Register'>
         </form>
       </div>
+      
       <div class="form" id="login">
         <form id="login" >
           <input type="text" name='email' placeholder="Email address">
@@ -53,21 +55,36 @@
           <input type="submit" value='Login'>
         </form>
       </div>
+      
       <div class="form" id="location">
         <form id="location" >
           <input type="text" name='Search' placeholder="Search">
           <input type="submit" value='Add'>
         </form>
       </div>
+      
       <div class="editProfile">
         <h1>Edit profile</h1>
+        <form id="editProfile" >
+          <input type="text" name='name' id="edit-name" placeholder="Name">
+          <input type="text" name='email' id="edit-email" placeholder="Email address">
+          <input type="password" name='password' id="edit-password" 
+          placeholder="Password">
+          <input type="password" name='passwordConfirmation' id="edit-passwordConfirmation" 
+          placeholder="Password Confirmation">
+          <input type="submit" id="submit" value='Edit'>
+        </form>
       </div>
+      
       <div id="index">
+
         <h1>Index</h1>
       </div>
+      
       <div class="locationsShow">
         <h1>Locations show</h1>
       </div>
+
     </div>
   </main>
 </body>
