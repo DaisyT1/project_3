@@ -39,17 +39,17 @@
     <div class="container">
       <div class="form" id="register">
         <form id="register" >
-          <input type="text" name='name' placeholder="Name">
-          <input type="text" name='email' placeholder="Email address">
-          <input type="password" name='password' placeholder="Password">
-          <input type="password" name='passwordConfirmation' placeholder="Password Confirmation">
+          <input type="text" id='name' name="user[name]" placeholder="Name">
+          <input type="text" id='email' name="user[email]" placeholder="Email address">
+          <input type="password" id='password' name="user[password]" placeholder="Password">
+          <input type="password" id='passwordConf' name="user[passwordConfirmation]" placeholder="Password Confirmation">
           <input type="submit" value='Register'>
         </form>
       </div>
       <div class="form" id="login">
         <form id="login" >
-          <input type="text" name='email' placeholder="Email address">
-          <input type="password" name='password' placeholder="Password">
+          <input type="text" id='loginemail' placeholder="Email address">
+          <input type="password" id='loginpassword' placeholder="Password">
           <input type="submit" value='Login'>
         </form>
       </div>
