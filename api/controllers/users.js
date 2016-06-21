@@ -70,8 +70,38 @@ function addFriend(req, res) {
       $push: {"friends": user}},
       {safe: true, upsert: true, new : true},
       function(err, user) {
-        if(!user) return res.status(404).json({message: "Could not find that user"});
+        if(!user) return res.status(404).json({message: "Could not add that friend"});
         return res.status(200).json({ user: user});
+      }
+    );
+  });
+  User.findById(req.params.id, function(err, user) {
+    User.findByIdAndUpdate(req.body.friends,{
+      $push: {"friends": user}},
+      {safe: true, upsert: true, new : true},
+      function(err, user) {
+      }
+    );
+  });
+}
+
+function requestFriend(req, res) {
+  User.findById(req.body.friend_requests, function(err, user) {
+    if(err) return res.status(500).json({ message: err });
+    User.findByIdAndUpdate(req.params.id,{
+      $push: {"friend_requests": user}},
+      {safe: true, upsert: true, new : true},
+      function(err, user) {
+        if(!user) return res.status(404).json({message: "Could not request that friend"});
+        return res.status(200).json({ user: user});
+      }
+    );
+  });
+  User.findById(req.params.id, function(err, user) {
+    User.findByIdAndUpdate(req.body.friend_requests,{
+      $push: {"friends_requested": user}},
+      {safe: true, upsert: true, new : true},
+      function(err, user) {
       }
     );
   });
@@ -83,5 +113,6 @@ module.exports = {
   update: usersUpdate,
   delete: usersDelete,
   addLocation: addLocation,
-  addFriend: addFriend
+  addFriend: addFriend,
+  requestFriend: requestFriend,
 };

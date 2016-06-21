@@ -39,7 +39,11 @@ router.route('/users/:id/locations')
 
 router.route('/users/:id/friends')
   .all(checkForToken)
-  .post(usersController.addFriend);
+  .post(usersController.addFriend)
+
+router.route('/users/:id/reqfriends')
+  .all(checkForToken)
+  .post(usersController.requestFriend);
 
 router.post('/login', authenticationController.login);
 router.post('/register', authenticationController.register);
