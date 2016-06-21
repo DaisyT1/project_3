@@ -30,6 +30,8 @@ function locationsUpdate(req, res) {
   });
 }
 
+
+
 function locationsDelete(req, res) {
   Location.findByIdAndRemove(req.params.id, function(err) {
     if(err) return res.status(500).json({ message: err });
