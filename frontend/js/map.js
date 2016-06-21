@@ -1,5 +1,23 @@
 $(function(){
 
+
+  // $(document).ready(function() {
+  //   $("#register").submit(function(event){
+     
+  //        event.preventDefault();  
+  //         console.log("test");
+          
+  //   });
+  // });
+  
+
+
+  $("#submitButton").click(function(event){
+      event.preventDefault()
+      console.log("Submitted");
+  });
+
+
   var address;
   var myLocation;
 
