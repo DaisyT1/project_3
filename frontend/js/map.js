@@ -1,12 +1,32 @@
 $(function(){
 
   var address;
+  var myLocation;
+
+  function getLocationFromLatLng(lat,lng) {
+        $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +" ,"+lng+"&key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q", 
+          function(location){
+             //console.log(location.results[0].formatted_address);
+             //consoleLocation(location.results[0].formatted_address);
+             myLocation = location.results[0].formatted_address;
+    });
+  }
 
   $("#getLocation").click(function(){
       navigator.geolocation.getCurrentPosition(function(position){
 
-        console.log(position.coords.latitude);
-        console.log(position.coords.longitude);
+        // console.log(position.coords.latitude);
+        // console.log(position.coords.longitude);
+        getLocationFromLatLng(position.coords.latitude,position.coords.longitude);
+        console.log(myLocation);
+        
+        myLocation = myLocation.replace(", Reino Unido", "");
+
+        console.log(myLocation);
+        $('#start')
+                 .append($("<option></option>")
+                  .attr("value",myLocation)
+                  .text("My location")); 
 
       });
   });
@@ -62,7 +82,9 @@ $(function(){
       clearMarkers();
   });
 
-  
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var directionsService = new google.maps.DirectionsService;
+
   var canvas = document.getElementById("map-canvas");
 
   var mapOptions = {
@@ -73,6 +95,36 @@ $(function(){
 
   var map = new google.maps.Map(canvas , mapOptions);
   
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+  var control = document.getElementById('floating-panel');
+  control.style.display = 'block';
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+    var onChangeHandler = function() {
+      calculateAndDisplayRoute(directionsService, directionsDisplay);
+    };
+    document.getElementById('start').addEventListener('change', onChangeHandler);
+    document.getElementById('end').addEventListener('change', onChangeHandler);
+  
+
+  function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    var start = document.getElementById('start').value;
+    var end = document.getElementById('end').value;
+    directionsService.route({
+      origin: start,
+      destination: end,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
   // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
@@ -125,6 +177,7 @@ $(function(){
           bounds.extend(place.geometry.location);
         }
         getLocationFromLatLng(place.geometry.location.lat(),place.geometry.location.lng());
+        console.log(place.geometry.location.lat(),place.geometry.location.lng());
       });
 
       map.fitBounds(bounds);
@@ -146,13 +199,7 @@ $(function(){
     console.log(location);
   }
 
-  function getLocationFromLatLng(lat,lng) {
-        $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +" ,"+lng+"&key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q", 
-          function(location){
-             //console.log(location.results[0].formatted_address);
-             consoleLocation(location.results[0].formatted_address);
-    });
-  }
+
   
   // function getLocaFromAdress(adress) {
 
@@ -203,11 +250,8 @@ $(function(){
         var socket = io.connect();
         socket.on('position.coords', function (data) {
             console.log('arrived', data);
-
             $(document).trigger('new-coordinate', data);
-
             // or just directly update your map ...
-
         });
 
         if (marker) {

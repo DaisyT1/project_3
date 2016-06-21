@@ -5,7 +5,7 @@
     <title>Cameras</title>
     <link rel="stylesheet" href="./css/style.css">
 
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
@@ -14,6 +14,22 @@
     <script src="./js/map.js" charset="utf-8"></script>
   </head>
   <body>
+
+    <div id="floating-panel">
+      <strong>Start:</strong>
+      <select id="start">
+        <option value="se13sa">home</option>
+        <option value="E1 5JL">ga</option>
+      </select>
+      <br>
+      <strong>End:</strong>
+      <select id="end">
+        <option value="se13sa">home</option>
+        <option value="E1 5JL">ga</option>
+      </select>
+    </div>
+    <div id="right-panel"></div>
+    
     <div id="map-canvas"></div>
 
     <input type="button" id="getLocation" value="Get My Location">
