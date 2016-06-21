@@ -20,17 +20,30 @@ function checkForToken(req, res, next){
   });
 }
 
- router.get('/users', checkForToken, usersController.index);
+router.get('/users', checkForToken, usersController.index);
 // router.route('/users')
 //       .get(usersController.checkForToken);
 //       .get(usersController.index);
 //       .post(usersController.new);
 
 router.route('/users/:id')
+ .all(checkForToken)
+ .get(usersController.show)
+ .put(usersController.update)
+ .delete(usersController.delete);
+
+
+router.route('/users/:id/locations')
   .all(checkForToken)
-  .get(usersController.show)
-  .put(usersController.update)
-  .delete(usersController.delete);
+  .post(usersController.addLocation);
+
+router.route('/users/:id/friends')
+  .all(checkForToken)
+  .post(usersController.addFriend)
+
+router.route('/users/:id/reqfriends')
+  .all(checkForToken)
+  .post(usersController.requestFriend);
 
 router.post('/login', authenticationController.login);
 router.post('/register', authenticationController.register);

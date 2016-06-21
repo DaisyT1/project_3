@@ -38,15 +38,15 @@ userSchema.virtual('passwordConfirmation')
     this._passwordConfirmation = passwordConfirmation;
   });
 
-userSchema.path('passwordHash')
-  .validate(function(passwordHash) {
-    if(!this._password) {
-      return this.invalidate('password', 'A password is required');
-    }
-    if(this._password !== this._passwordConfirmation) {
-      return this.invalidate('passwordConfirmation', 'Passwords do not match');
-    }
-  });
+// userSchema.path('passwordHash')
+//   .validate(function(passwordHash) {
+//     if(!this._password) {
+//       return this.invalidate('password', 'A password is required');
+//     }
+//     if(this._password !== this._passwordConfirmation) {
+//       return this.invalidate('passwordConfirmation', 'Passwords do not match');
+//     }
+//   });
 
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.passwordHash);

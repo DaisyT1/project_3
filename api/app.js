@@ -9,6 +9,8 @@ var mongoose = require('mongoose')
 
 
 mongoose.connect('mongodb://localhost/project3');
+// var User = require('./models/user'); 
+// User.collection.drop();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
