@@ -53,7 +53,7 @@ function addLocation(req, res) {
         if((user.locations).indexOf(location.id) > -1){
         return res.status(500).json({message: "This location already exists"});
         } else {
-          user.locations.push(req.body.locations);
+          user.locations.push(location);
           user.save(function(err,user){
             if(err) return res.json(err);
               res.json(user);
@@ -65,17 +65,16 @@ function addLocation(req, res) {
 
 function addFriend(req, res) {
   User.findById(req.body.friends, function(err, user) {
-   if(err) return res.status(500).json({ message: err });
-   // if(!user) return res.status(404).json({message: "Could not find that user"});
-   User.findByIdAndUpdate(
-           req.params.id,
-           {$push: {"friends": user.friends}},
-           {safe: true, upsert: true, new : true},
-           function(err, user) {
-               return res.status(200).json({ user: user });
-           }
-       );
- });
+    if(err) return res.status(500).json({ message: err });
+    User.findByIdAndUpdate(req.params.id,{
+      $push: {"friends": user}},
+      {safe: true, upsert: true, new : true},
+      function(err, user) {
+        if(!user) return res.status(404).json({message: "Could not find that user"});
+        return res.status(200).json({ user: user});
+      }
+    );
+  });
 }
 
 module.exports = {
