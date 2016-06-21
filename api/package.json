@@ -17,9 +17,5 @@
     "jsonwebtoken": "^5.7.0",
     "cors": "^2.7.1",
     "bcrypt-nodejs": "0.0.3"
-
   }
 }
-
-
-
