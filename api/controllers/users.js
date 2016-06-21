@@ -62,7 +62,7 @@ function addLocation(req, res) {
       });
   });
 }
-
+// this means accept friend
 function addFriend(req, res) {
   User.findById(req.body.friends, function(err, user) {
     if(err) return res.status(500).json({ message: err });
@@ -95,8 +95,8 @@ function requestFriend(req, res) {
       if((requester.friend_requests).indexOf(requestee.id) > -1){
         return res.status(500).json({message: "You have already requested that friend"});
       } else {
-        requester.friends_requested.push(requestee);
-        requester.save(function(err,user){
+        requester.friend_requests.push(requestee);
+        requester.save(function(err, requester){
           if(err) return res.json(err);
           res.json(requester);
         });
