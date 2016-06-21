@@ -86,24 +86,30 @@ function addFriend(req, res) {
 }
 
 function requestFriend(req, res) {
-  User.findById(req.body.friend_requests, function(err, user) {
+  User.findById(req.body.friend_requests, function(err, requestee) {
     if(err) return res.status(500).json({ message: err });
-    User.findByIdAndUpdate(req.params.id,{
-      $push: {"friend_requests": user}},
-      {safe: true, upsert: true, new : true},
-      function(err, user) {
-        if(!user) return res.status(404).json({message: "Could not request that friend"});
-        return res.status(200).json({ user: user});
+    User.findById(req.params.id, function(err, requester){
+      if(!requestee) return res.status(404).json({message: "Could not request a nonexistent user as a friend"});
+      // return res.json(requester.friend_requests);
+      // return res.json(requestee.id);
+      if((requester.friend_requests).indexOf(requestee.id) > -1){
+        return res.status(500).json({message: "You have already requested that friend"});
+      } else {
+        requester.friends_requested.push(requestee);
+        requester.save(function(err,user){
+          if(err) return res.json(err);
+          res.json(requester);
+        });
       }
-    );
-  });
-  User.findById(req.params.id, function(err, user) {
-    User.findByIdAndUpdate(req.body.friend_requests,{
-      $push: {"friends_requested": user}},
-      {safe: true, upsert: true, new : true},
-      function(err, user) {
-      }
-    );
+    });
+    User.findById(req.params.id, function(err, requester) {
+      User.findByIdAndUpdate(req.body.friend_requests,{
+        $push: {"friends_requested": requester}},
+        {safe: true, upsert: true, new : true},
+        function(err, requester) {
+        }
+      );
+    });
   });
 }
 
