@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Cameras</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q&libraries=places" charset="utf-8"></script>
 
-    <script src="./js/map.js" charset="utf-8"></script>
+    <script src="../js/map.js" charset="utf-8"></script>
+    <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
 
@@ -44,9 +45,30 @@
 
     <input type="button" id="clearMarkers" value="clearMarkers">
 
-    
+    <input type="button" id="sendMsg" value="sendMsg">
+
 
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+    <script>
+      var socket = io();
+
+      socket.on('chat message' , function(message){
+
+        // var messageElement = $("<li></li>").html(message);
+        // $("#messages").prepend(messageElement);
+        console.log(message)
+      });
+
+      $('sendMsg').click(function(e){
+          // socket.emit('chat message', $('#m').val());
+          // $('#m').val('');
+          console.log("test")
+          socket.emit('chat message', "hello");
+          
+          return false;
+      });
+    </script>
 
   </body>
 </html>
