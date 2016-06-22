@@ -14,7 +14,13 @@ var token = window.localStorage.getItem('token');
   $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
+  $("#logoutButton").on("click", logout);
   $("form#allLocations").on("submit", createLocation);
+   
+  getUsers();
+  showCurrentUser();
+   
+
 
 //================================================================  
 
@@ -70,7 +76,7 @@ function showLocations(user) {
   //console.log(thisUser_id);
 };
 
-//==============================REGISTER==========================
+//=========================REGISTER - LOGIN  -LOGOUT==========================
 function register(){
   event.preventDefault();
 
@@ -109,13 +115,26 @@ function login(){
 
         console.log('logged in');
 
-        $.ajaxSetup({
-            headers: { 'Authorisation': 'Bearer ' + data.token }
-        });
+          $.ajaxSetup({
+                   headers: { 'Authorisation': 'Bearer ' + data.token }
+               });
+           }).done(function(){
 
-    });
+             showCurrentUser();
 
-};
+             window.location.reload();
+           })
+        };
+
+        function removeToken() {
+         return localStorage.removeItem("token");
+        }
+
+
+        function logout(){
+         removeToken();
+         window.location.reload();
+        };
 
 //==========================USERS INDEX=================================
   function getUsers() {
@@ -166,6 +185,16 @@ var thisUser = currentUser()
 
 console.log(thisUser._id)
 
+
+function showCurrentUser() {
+ var user = currentUser()
+
+ if(user) {
+   $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
+ } else {
+   $('.nav').append("<li><a href='#'>Signin</a></li>")
+ }
+}
 //===================================================
 
 
