@@ -24,7 +24,7 @@ function locationsCreate(req, res) {
           });
     });
 }
-
+//mishal test
 function locationsByUser(req, res) {
 
   User.findById( req.params.id, function(err, user) {
