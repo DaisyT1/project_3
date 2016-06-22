@@ -16,8 +16,11 @@ var token = window.localStorage.getItem('token');
   
 
   getUsers();
+  hideAllDivs();
+  navbarToggle();
+ 
   
-});
+});//END OF DOCUMENT READY
 
 //==============================REGISTER==========================
 function register(){
@@ -154,3 +157,41 @@ var updateUser = function(){
   });
 }
 
+  //================TOGGLING=========================/
+
+  // TOGGLE REGISTER
+
+function hideAllDivs(){
+    $("#location").hide();
+    $("#index").hide();
+    $("#register").hide();
+    $("#editProfile").hide();
+    $("#login").hide();
+    $("#logout").hide();
+}
+
+function navbarToggle() {
+
+  $("#locationButton").click(function(){
+    $("#location").slideToggle("medium");
+    $("#locationsShow").slideToggle("medium");
+  })
+  $("#addFriend").click(function(){
+    $("#index").slideToggle("slow");;
+  })
+  $("#friendReq").click(function(){
+   $("#").slideToggle("medium");;
+ })
+  $("#regButton").click(function(){
+    $("#register").slideToggle("medium");;
+  })
+  $("#editProfButton").click(function(){
+    $("#editProfile").slideToggle("medium");;
+  })
+  $("#loginButton").click(function(){
+    $("#login").slideToggle("medium");;
+  })
+  $("#logoutButton").click(function(){
+    $("#logout").slideToggle("medium");;
+  })
+}

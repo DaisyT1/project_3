@@ -26,20 +26,24 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Add location</a></li>
-          <li><a href="#">Find friends</a></li>
-          <li><a href="#">Friend requests</a></li>
-          <li><a href="#">Edit profile</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="#" id="locationButton">Add location</a></li>
+          <li><a href="#" id="addFriend">Find friends</a></li>
+          <li><a href="#" id="friendReq">Friend requests</a></li>
+          <li><a href="#" id="regButton">Register</a></li>
+          <li><a href="#" id="editProfButton">Edit profile</a></li>
+          <li><a href="#" id="loginButton">Login</a></li>
+          <li><a href="#" id="logoutButton">Logout</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
+  <!--//////////////////////// END OF NAVBAR ////////////////////////-->
   <main>
+
     <div class="container">
 
       <div class="form" id="register">
-        <form id="register" >
+        <form >
           <input type="text" id='name' name="user[name]" placeholder="Name">
           <input type="text" id='email' name="user[email]" placeholder="Email address">
           <input type="password" id='password' name="user[password]" placeholder="Password">
@@ -49,7 +53,7 @@
       </div>
       
       <div class="form" id="login">
-        <form id="login" >
+        <form >
           <input type="text" id='loginemail' placeholder="Email address">
           <input type="password" id='loginpassword' placeholder="Password">
           <input type="submit" value='Login'>
@@ -57,15 +61,14 @@
       </div>
       
       <div class="form" id="location">
-        <form id="location" >
+        <form>
           <input type="text" name='Search' placeholder="Search">
           <input type="submit" value='Add'>
         </form>
       </div>
       
-      <div class="editProfile">
-        <h1>Edit profile</h1>
-        <form id="editProfile" >
+      <div id="editProfile">
+        <form>
           <input type="text" name='name' id="edit-name" placeholder="Name">
           <input type="text" name='email' id="edit-email" placeholder="Email address">
           <input type="password" name='password' id="edit-password" 
@@ -81,10 +84,6 @@
         <h1>Index</h1>
       </div>
       
-      <div class="locationsShow">
-        <h1>Locations show</h1>
-      </div>
-
     </div>
   </main>
 </body>
