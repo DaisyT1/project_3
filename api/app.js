@@ -2,7 +2,6 @@ var express   = require('express');
 var app       = express();
 var port      = process.env.PORT || 3000;
 var morgan    = require('morgan');
-
 var methodOverride = require('method-override')
 var bodyParser = require('body-parser')
 var routes = require("./config/routes.js")
@@ -14,6 +13,8 @@ var cors = require('cors')
 
 
 mongoose.connect('mongodb://localhost/project3');
+
+
 
 app.use(cors());
 

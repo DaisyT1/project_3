@@ -1,5 +1,5 @@
 $(document).ready(function(){
-//============================
+
 var token = window.localStorage.getItem('token');
 
    if (token) {
@@ -9,11 +9,13 @@ var token = window.localStorage.getItem('token');
    }
 
 //===============================
-  // getAllUsers()
+
   $("form#register").on("submit", createUser);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
+  
 
+  register();
   
 });
 
@@ -64,15 +66,15 @@ function login(){
 
 };
 
-//===================================================================
-  function getAllUsers() {
+//==========================USERS INDEX=================================
+  function register() {
   $.get("http://localhost:3000/api/users" , function(users) {
 
-    $(users).each(function(index, user){
-      getElements(user , "#index")
-      console.log(user.name)
-    })
 
+    $(users.users).each(function(index, user){
+      getElements(user , "#index")
+      // console.log(user);
+    })
   })
 };
 
@@ -80,12 +82,38 @@ function getElements(user, div){
 
   var person = 
   "<p>" + user.name  + "</p>" +
-  "<p>" + user.email  + "</p>" 
-
+  "<p>" + user.email  + "</p>" +
+  "<button>Send</button>" + 
+  "<button>Accept</button>"
 
   $(div).append(person);
 
 }
+
+//=========================================================================
+//++++++++++++++ GET THE CURRENT USER +++++++++++++//
+
+function getToken() {
+  return localStorage.getItem('token');
+}
+
+function currentUser() {
+  var token = getToken();
+
+  if(token) {
+    var payload = token.split('.')[1];
+        payload = window.atob(payload);
+        payload = JSON.parse(payload)
+
+    return payload
+  }
+}
+
+var thisUser = currentUser()
+
+console.log(thisUser._id)
+
+//===================================================
 
 
 //===================================
@@ -125,3 +153,4 @@ var updateUser = function(){
     // location.reload();
   });
 }
+
