@@ -39,9 +39,7 @@
   </nav>
   <!--//////////////////////// END OF NAVBAR ////////////////////////-->
   <main>
-
-    <div class="container">
-
+  <div class="container-fluid">
       <div class="form" id="register">
         <form >
           <input type="text" id='name' name="user[name]" placeholder="Name">
@@ -67,7 +65,7 @@
         </form>
       </div>
       
-      <div id="editProfile">
+      <div id="editProfile" class="form">
         <form>
           <input type="text" name='name' id="edit-name" placeholder="Name">
           <input type="text" name='email' id="edit-email" placeholder="Email address">
@@ -77,13 +75,16 @@
           placeholder="Password Confirmation">
           <input type="submit" id="submit" value='Edit'>
         </form>
-      </div>
-      
+      </div>  
       <div id="index">
-
         <h1>Index</h1>
       </div>
-      
+      <div id="row">
+        <div id="map-canvas" class="col-sm-12">
+        </div>
+      </div>
+      <div id="otherUserShow">
+      </div>
     </div>
   </main>
 </body>

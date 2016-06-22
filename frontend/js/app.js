@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+//=================TOKENS===============//
 var token = window.localStorage.getItem('token');
 
    if (token) {
@@ -177,21 +178,22 @@ function navbarToggle() {
     $("#locationsShow").slideToggle("medium");
   })
   $("#addFriend").click(function(){
-    $("#index").slideToggle("slow");;
+    $("#index").slideToggle("slow");
+    $("#map-canvas").slideToggle("slow");
   })
   $("#friendReq").click(function(){
-   $("#").slideToggle("medium");;
+   $("#").slideToggle("medium");
  })
   $("#regButton").click(function(){
-    $("#register").slideToggle("medium");;
+    $("#register").slideToggle("medium");
   })
   $("#editProfButton").click(function(){
-    $("#editProfile").slideToggle("medium");;
+    $("#editProfile").slideToggle("medium");
   })
   $("#loginButton").click(function(){
-    $("#login").slideToggle("medium");;
+    $("#login").slideToggle("medium");
   })
   $("#logoutButton").click(function(){
-    $("#logout").slideToggle("medium");;
+    $("#logout").slideToggle("medium");
   })
 }
