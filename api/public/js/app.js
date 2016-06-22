@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  
+
+
 
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
@@ -13,6 +16,7 @@ var token = window.localStorage.getItem('token');
 
   $("form#register").on("submit", register);
   $("form#login").on("submit", login);
+  $("#logout-button").on("click", logout);
   $('body').on('click', '.edit', editUser);
   $("form#allLocations").on("submit", createLocation);
 
@@ -27,6 +31,7 @@ var token = window.localStorage.getItem('token');
 });//END OF DOCUMENT READY
 
 //================================================================
+  showCurrentUser();
   
 function createLocation() {
     event.preventDefault();
@@ -70,7 +75,7 @@ function showLocations(user) {
   //console.log(thisUser_id);
 };
 
-//==============================REGISTER==========================
+//=========================REGISTER - LOGIN  -LOGOUT==========================
 function register(){
   event.preventDefault();
 
@@ -112,9 +117,22 @@ function login(){
         $.ajaxSetup({
             headers: { 'Authorisation': 'Bearer ' + data.token }
         });
+    }).done(function(){
 
-    });
+      showCurrentUser();
 
+      window.location.reload();
+    })
+};
+
+function removeToken() {
+  return localStorage.removeItem("token");
+}
+
+
+function logout(){
+  removeToken();
+  window.location.reload();
 };
 
 //==========================USERS INDEX=================================
@@ -159,14 +177,35 @@ function currentUser() {
         payload = JSON.parse(payload)
 
     return payload
+
   }
 }
 
+
+
 var thisUser = currentUser()
 
-console.log(thisUser._id)
+// console.log(thisUser._id)
+
+
+
 
 //===================================================
+//--------------- Yo intentando--------------
+
+function showCurrentUser() {
+  var user = currentUser()
+
+  if(user) {
+    $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
+  } else {
+    $('.nav').append("<li><a href='#'>Signin</a></li>")
+  }
+}
+
+
+
+ 
 
 
 //===================================
@@ -251,3 +290,4 @@ function navbarToggle() {
     $("#logout").slideToggle("medium");
   })
 }
+
