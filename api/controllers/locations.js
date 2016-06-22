@@ -26,13 +26,6 @@ function locationsCreate(req, res) {
 }
 
 function locationsByUser(req, res) {
-  // User.findById( req.params.id, function(err, user) {
-
-
-  //       var userLocations = user.locations;
-  //        console.log(userLocations);
-
-  // });
 
   User.findById( req.params.id, function(err, user) {
     if (err) return res.status(500).json({ error: 'Error'});

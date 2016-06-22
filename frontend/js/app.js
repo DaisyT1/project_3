@@ -10,17 +10,70 @@ var token = window.localStorage.getItem('token');
 
 //===============================
 
-  $("form#register").on("submit", createUser);
+  $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
-  
-
-  register();
+//==============================MISHAL============================
+//================================================================  
+  $("form#allLocations").on("submit", createLocation);
+//================================================================  
+//================================================================  
+  getUsers();
   
 });
 
+
+
+//==============================MISHAL============================
+//================================================================
+  
+function createLocation() {
+    event.preventDefault();
+
+    // console.log($("input#locationName").val());
+    // console.log($("input#locationLat").val());
+    // console.log($("input#locationLng").val());
+    var url = "http://localhost:3000/api/"+thisUser._id+"/locations"
+    $.ajax({
+      url: url,
+      type:'post',
+      data: { location: {
+        "name": $("input#locationName").val(),
+        "lat": $("input#locationLat").val(),
+        "long": $("input#locationLng").val()
+      }}
+    })
+    .done(function(data) {
+      
+      console.log(data);
+    });
+};
+
+function showLocations(user) {
+  event.preventDefault();
+  if (user == "current") {
+      user = thisUser._id;
+  }
+  var url = "http://localhost:3000/api/"+user+"/locations"
+  $.get(url , function(locations) {
+
+      $(locations).each(function(index, location){
+        console.log(location._id);
+        console.log(location.name);
+        console.log(location.lat);
+        console.log(location.long);
+        // console.log(user);
+      })
+
+    })
+  //console.log(thisUser_id);
+};
+
+//================================================================
+//================================================================
+
 //==============================REGISTER==========================
-function createUser(){
+function register(){
   event.preventDefault();
 
   $.ajax({
@@ -67,7 +120,7 @@ function login(){
 };
 
 //==========================USERS INDEX=================================
-  function register() {
+  function getUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
 
 
@@ -81,8 +134,10 @@ function login(){
 function getElements(user, div){
 
   var person = 
+  "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
   "<p>" + user.email  + "</p>" +
+  "<p> <button onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
   "<button>Send</button>" + 
   "<button>Accept</button>"
 
