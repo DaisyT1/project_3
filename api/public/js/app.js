@@ -1,36 +1,30 @@
 $(document).ready(function(){
-
+  
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
-
    if (token) {
        $.ajaxSetup({
            headers: { 'Authorisation': 'Bearer ' + token }
        });
    }
-
 //===============================
-
   $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
   $("form#allLocations").on("submit", createLocation);
 
 //================================================================  
-
-
   getUsers();
   hideAllDivs();
   navbarToggle();
+
  
   
 });//END OF DOCUMENT READY
-
 //================================================================
   
 function createLocation() {
     event.preventDefault();
-
     // console.log($("input#locationName").val());
     // console.log($("input#locationLat").val());
     // console.log($("input#locationLng").val());
@@ -49,7 +43,6 @@ function createLocation() {
       console.log(data);
     });
 };
-
 function showLocations(user) {
   event.preventDefault();
   if (user == "current") {
@@ -57,7 +50,6 @@ function showLocations(user) {
   }
   var url = "http://localhost:3000/api/"+user+"/locations"
   $.get(url , function(locations) {
-
       $(locations).each(function(index, location){
         console.log(location._id);
         console.log(location.name);
@@ -65,15 +57,12 @@ function showLocations(user) {
         console.log(location.long);
         // console.log(user);
       })
-
     })
   //console.log(thisUser_id);
 };
-
 //==============================REGISTER==========================
 function register(){
   event.preventDefault();
-
   $.ajax({
     url:'http://localhost:3000/api/register',
     type:'post',
@@ -93,44 +82,31 @@ function register(){
     console.log(data);
   });
 }
-
 function login(){
-
   event.preventDefault();
   console.log('hello')
-
     $.post("http://localhost:3000/api/login" , {
       "email": $("input#loginemail").val(),
       "password": $("input#loginpassword").val()
     },
     function(data){
-
         window.localStorage.setItem('token' , data.token);
-
         console.log('logged in');
-
         $.ajaxSetup({
             headers: { 'Authorisation': 'Bearer ' + data.token }
         });
-
     });
-
 };
-
 //==========================USERS INDEX=================================
   function getUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
-
-
     $(users.users).each(function(index, user){
       getElements(user , "#index")
       // console.log(user);
     })
   })
 };
-
 function getElements(user, div){
-
   var person = 
   "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
@@ -138,41 +114,27 @@ function getElements(user, div){
   "<p> <button class='btn btn-primary' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
   "<button class='btn btn-primary'>Send</button>" + 
   "<button class='btn btn-primary'>Accept</button>"
-
   $(div).append(person);
-
 }
-
 //=========================================================================
 //++++++++++++++ GET THE CURRENT USER +++++++++++++//
-
 function getToken() {
   return localStorage.getItem('token');
 }
-
 function currentUser() {
   var token = getToken();
-
   if(token) {
     var payload = token.split('.')[1];
         payload = window.atob(payload);
         payload = JSON.parse(payload)
-
     return payload
   }
 }
-
 var thisUser = currentUser()
-
 console.log(thisUser._id)
-
 //===================================================
-
-
 //===================================
-
 //EDIT USER
-
 function editUser(){
   $.ajax({
     method: 'get',
@@ -186,7 +148,6 @@ function editUser(){
   });
   $('#editProfile').on('submit', updateUser);
 }
-
 var updateUser = function(){
   event.preventDefault();
   var user = {
@@ -206,11 +167,8 @@ var updateUser = function(){
     // location.reload();
   });
 }
-
   //================TOGGLING=========================/
-
   // TOGGLE REGISTER
-
 function hideAllDivs(){
     $("#location").hide();
     $("#index").hide();
@@ -218,11 +176,8 @@ function hideAllDivs(){
     $("#editProfile").hide();
     $("#login").hide();
     $("#logout").hide();
-
 }
-
 function navbarToggle() {
-
    $("#brand").click(function(){
     hideAllDivs()
     $("#map-canvas").show('medium');
@@ -232,6 +187,8 @@ function navbarToggle() {
     $("#locationsShow").slideToggle("medium");
   })
   $("#addFriend").click(function(){
+    // $("#collapse").hide("slow");
+    $('.navbar-collapse').removeClass('in');
     $("#index").slideToggle("slow");
     $("#map-canvas").slideToggle("slow");
   })
@@ -249,5 +206,8 @@ function navbarToggle() {
   })
   $("#logoutButton").click(function(){
     $("#logout").slideToggle("medium");
+  })
+  $('#map-canvas').click(function(){
+    $('.navbar-collapse').removeClass('in');
   })
 }
