@@ -1,13 +1,70 @@
-
+var User = require('../models/user');
 var Location = require('../models/location');
 
 function locationsCreate(req, res) {
-    var location = new Location(req.body);
+    var location = new Location(req.body.location);
+    console.log("LOCATIONNNNNN" + location)
       location.save(function(err,location){
         if (err) return res.status(500).json({ error: 'Error'});
-          res.json(location)
+          res.json(location);
+          User.findById( req.params.id, function(err, user) {
+            if (err) return res.status(500).json({ error: 'Error'});
+
+            user.locations.push(location)
+            //BUG TO FIX LATER
+            user.save()
+            console.log(user);
+            // else {
+            //   user.locations.push(location);
+            //   user.save(function(err,user){
+            //     if(err) return res.json(err);
+            //       res.json(user);
+            //   });
+            // } 
+          });
     });
-  }
+}
+//mishal test
+function locationsByUser(req, res) {
+
+  User.findById( req.params.id, function(err, user) {
+    if (err) return res.status(500).json({ error: 'Error'});
+    }).populate('locations')
+      .exec(function(err, user){
+          if (err) return res.status(500).json({ error: 'Error'});
+          res.json(user.locations);
+          //console.log(location);
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function locationsIndex(req, res) {
   Location.find(function(err, locations) {
@@ -42,5 +99,7 @@ module.exports = {
   index: locationsIndex,
   show: locationsShow,
   update: locationsUpdate,
-  delete: locationsDelete
+  delete: locationsDelete,
+  locationsCreate: locationsCreate,
+  locationsByUser: locationsByUser
 };
