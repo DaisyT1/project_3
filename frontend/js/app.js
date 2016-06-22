@@ -135,9 +135,9 @@ function getElements(user, div){
   "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
   "<p>" + user.email  + "</p>" +
-  "<p> <button onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
-  "<button>Send</button>" + 
-  "<button>Accept</button>"
+  "<p> <button class='btn btn-primary' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
+  "<button class='btn btn-primary'>Send</button>" + 
+  "<button class='btn btn-primary'>Accept</button>"
 
   $(div).append(person);
 
@@ -218,10 +218,15 @@ function hideAllDivs(){
     $("#editProfile").hide();
     $("#login").hide();
     $("#logout").hide();
+
 }
 
 function navbarToggle() {
 
+   $("#brand").click(function(){
+    hideAllDivs()
+    $("#map-canvas").show('medium');
+  })
   $("#locationButton").click(function(){
     $("#location").slideToggle("medium");
     $("#locationsShow").slideToggle("medium");
