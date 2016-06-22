@@ -10,7 +10,6 @@
   <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script type="text/javascript" src="./js/app.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q&libraries=places" charset="utf-8"></script>
-
   <script src="./js/map.js" charset="utf-8"></script>
 </head>
 <body>
@@ -24,7 +23,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Locamate</a>
+        <a class="navbar-brand" href="#" id="brand">Locamate</a>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,38 +44,40 @@
   <div class="container-fluid">
       <div class="form" id="register">
         <form >
-          <input type="text" id='name' name="user[name]" placeholder="Name">
-          <input type="text" id='email' name="user[email]" placeholder="Email address">
-          <input type="password" id='password' name="user[password]" placeholder="Password">
-          <input type="password" id='passwordConf' name="user[passwordConfirmation]" placeholder="Password Confirmation">
-          <input type="submit" value='Register'>
+        <fieldset class="form-group">
+          <input type="text" id='name' name="user[name]" placeholder="Name" class="form-control">
+          <input type="text" id='email' name="user[email]" placeholder="Email address" class="form-control">
+          <input type="password" id='password' name="user[password]" placeholder="Password" class="form-control">
+          <input type="password" id='passwordConf' name="user[passwordConfirmation]" placeholder="Password Confirmation" class="form-control">
+          <input type="submit" value='Register' class="btn btn-primary">
+          </fieldset>
         </form>
       </div>
       
       <div class="form" id="login">
         <form >
-          <input type="text" id='loginemail' placeholder="Email address">
-          <input type="password" id='loginpassword' placeholder="Password">
-          <input type="submit" value='Login'>
+          <input type="text" id='loginemail' placeholder="Email address" class="form-control">
+          <input type="password" id='loginpassword' placeholder="Password" class="form-control">
+          <input type="submit" value='Login' class="btn btn-primary">
         </form>
       </div>
       
       <div class="form" id="location">
         <form>
-          <input type="text" name='Search' placeholder="Search">
-          <input type="submit" value='Add'>
+          <input type="text" name='Search' placeholder="Search" class="form-control">
+          <input type="submit" value='Add' class="btn btn-primary">
         </form>
       </div>
       
       <div id="editProfile" class="form">
         <form>
-          <input type="text" name='name' id="edit-name" placeholder="Name">
-          <input type="text" name='email' id="edit-email" placeholder="Email address">
+          <input type="text" name='name' id="edit-name" placeholder="Name" class="form-control">
+          <input type="text" name='email' id="edit-email" placeholder="Email address" class="form-control">
           <input type="password" name='password' id="edit-password" 
-          placeholder="Password">
+          placeholder="Password" class="form-control">
           <input type="password" name='passwordConfirmation' id="edit-passwordConfirmation" 
-          placeholder="Password Confirmation">
-          <input type="submit" id="submit" value='Edit'>
+          placeholder="Password Confirmation" class="form-control">
+          <input type="submit" id="submit" value='Edit' class="btn btn-primary">
         </form>
       </div>  
       <div id="index">
