@@ -6,6 +6,11 @@ $(function(){
   var address;
   var myLocation;
 
+  $('#locateMe').click( function(e) {
+    e.preventDefault(); /*your_code_here;*/
+    getMyLocation(); 
+  });
+
   var canvas = document.getElementById("map-canvas");
 
   var mapOptions = {
