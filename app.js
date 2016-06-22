@@ -13,8 +13,8 @@ app.use(express.static(__dirname + '/frontend'));
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  var room = 'buddies';
-  socket.join(room);
+  // var room = 'buddies';
+  // socket.join(room);
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
