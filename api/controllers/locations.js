@@ -33,7 +33,7 @@ function locationsByUser(req, res) {
       .exec(function(err, user){
           if (err) return res.status(500).json({ error: 'Error'});
           res.json(user.locations);
-          //console.log(location);
+          console.log("test");
     })
 
 }

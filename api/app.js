@@ -15,7 +15,6 @@ var io = require('socket.io')(http);
 
 mongoose.connect('mongodb://localhost/project3');
 
-
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
@@ -60,8 +59,8 @@ app.listen(port , function(){
 });
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/public/index-copy-mishal.html');
-  console.log(__dirname + '/public/index-copy-mishal.html')
+  res.sendFile(__dirname + '/public/index.html');
+  // console.log(__dirname + '/public/index-copy-mishal.html')
 });
 
 // THIS IS FOR HEROKU SERVER

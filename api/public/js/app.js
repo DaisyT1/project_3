@@ -48,6 +48,7 @@ function createLocation() {
       
       console.log(data);
     });
+    // console.log("test");
 };
 
 function showLocations(user) {
