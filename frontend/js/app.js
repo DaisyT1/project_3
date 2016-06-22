@@ -64,7 +64,7 @@ function login(){
 
 };
 
-//===================================================================
+//==========================USERS INDEX=================================
   function getAllUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
 
@@ -89,7 +89,26 @@ function getElements(user, div){
 }
 
 //=========================================================================
+//++++++++++++++ GET THE CURRENT USER +++++++++++++//
 
+function getToken() {
+  return localStorage.getItem('token');
+}
 
+function currentUser() {
+  var token = getToken();
+
+  if(token) {
+    var payload = token.split('.')[1];
+        payload = window.atob(payload);
+        payload = JSON.parse(payload)
+
+    return payload
+  }
+}
+
+var thisUser = currentUser()
+
+console.log(thisUser._id)
 
 //===================================================
