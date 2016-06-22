@@ -17,6 +17,7 @@
     "method-override": "^2.3.6",
     "mongoose": "^4.5.1",
     "morgan": "^1.7.0",
-    "password-hash": "^1.2.2"
+    "password-hash": "^1.2.2",
+    "socket.io": "^1.4.6"
   }
 }
