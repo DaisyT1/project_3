@@ -51,7 +51,11 @@ router.post('/register', authenticationController.register);
 
 router.route('/locations')
       .get(locationsController.index)
-      .post(locationsController.create);
+      // .post(locationsController.create);
+
+router.route('/:id/locations')
+      .get(locationsController.locationsByUser)
+      .post(locationsController.locationsCreate);
 
 router.route('/locations/:id')
   .get(locationsController.show)
