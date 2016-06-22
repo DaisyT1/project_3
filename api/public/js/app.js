@@ -17,7 +17,7 @@ var token = window.localStorage.getItem('token');
   getUsers();
   hideAllDivs();
   navbarToggle();
-
+  // showLocations();
  
   
 });//END OF DOCUMENT READY
@@ -25,9 +25,7 @@ var token = window.localStorage.getItem('token');
   
 function createLocation() {
     event.preventDefault();
-    // console.log($("input#locationName").val());
-    // console.log($("input#locationLat").val());
-    // console.log($("input#locationLng").val());
+
     var url = "http://localhost:3000/api/"+thisUser._id+"/locations"
     $.ajax({
       url: url,
@@ -43,24 +41,37 @@ function createLocation() {
       console.log(data);
     });
 };
+
 function showLocations(user) {
   event.preventDefault();
   if (user == "current") {
       user = thisUser._id;
   }
   var url = "http://localhost:3000/api/"+user+"/locations"
+
   $.get(url , function(locations) {
       $(locations).each(function(index, location){
         console.log(location._id);
         console.log(location.name);
         console.log(location.lat);
         console.log(location.long);
-        // console.log(user);
+
+        var place = 
+          "<p>" + location._id  + "</p>" +
+          "<p>" + location.name  + "</p>" +
+          "<p>" + location.lat  + "</p>" +
+          "<p>" + location.long  + "</p>" 
+
+          $("#locationShow").append(place);
+
+      $("#locationButton").click(function(){
+        $("#locationShow").slideToggle("medium");
+        })
       })
     })
   //console.log(thisUser_id);
 };
-//==============================REGISTER==========================
+//=======================REGISTER/LOGIN==========================
 function register(){
   event.preventDefault();
   $.ajax({
@@ -111,10 +122,11 @@ function getElements(user, div){
   "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
   "<p>" + user.email  + "</p>" +
-  "<p> <button class='btn btn-primary' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
+  "<button class='btn btn-primary' id='locationButton' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
   "<button class='btn btn-primary'>Send</button>" + 
   "<button class='btn btn-primary'>Accept</button>"
   $(div).append(person);
+
 }
 //=========================================================================
 //++++++++++++++ GET THE CURRENT USER +++++++++++++//
@@ -132,9 +144,8 @@ function currentUser() {
 }
 var thisUser = currentUser()
 console.log(thisUser._id)
-//===================================================
-//===================================
-//EDIT USER
+
+//====================EDIT USER=======================
 function editUser(){
   $.ajax({
     method: 'get',
@@ -168,7 +179,7 @@ var updateUser = function(){
   });
 }
   //================TOGGLING=========================/
-  // TOGGLE REGISTER
+
 function hideAllDivs(){
     $("#location").hide();
     $("#index").hide();
@@ -177,14 +188,24 @@ function hideAllDivs(){
     $("#login").hide();
     $("#logout").hide();
 }
+
+function hideAllDivsSlow(){
+    $("#location").hide("slow");
+    $("#index").hide("slow");
+    $("#register").hide("slow");
+    $("#editProfile").hide("slow");
+    $("#login").hide("slow");
+    $("#logout").hide("slow");
+}
+
 function navbarToggle() {
-   $("#brand").click(function(){
+  $("#brand").click(function(){
     hideAllDivs()
     $("#map-canvas").show('medium');
+    $('.navbar-collapse').removeClass('in');
   })
   $("#locationButton").click(function(){
     $("#location").slideToggle("medium");
-    $("#locationsShow").slideToggle("medium");
   })
   $("#addFriend").click(function(){
     // $("#collapse").hide("slow");
@@ -193,7 +214,7 @@ function navbarToggle() {
     $("#map-canvas").slideToggle("slow");
   })
   $("#friendReq").click(function(){
-   $("#").slideToggle("medium");
+    $("#").slideToggle("medium");
  })
   $("#regButton").click(function(){
     $("#register").slideToggle("medium");
@@ -209,5 +230,6 @@ function navbarToggle() {
   })
   $('#map-canvas').click(function(){
     $('.navbar-collapse').removeClass('in');
+    hideAllDivsSlow()
   })
 }
