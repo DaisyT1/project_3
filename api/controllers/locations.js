@@ -32,7 +32,7 @@ function locationsByUser(req, res) {
     }).populate('locations')
       .exec(function(err, user){
           if (err) return res.status(500).json({ error: 'Error'});
-          res.json(user.locations);
+          res.json(user);
           console.log("test");
     })
 
