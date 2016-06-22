@@ -10,17 +10,17 @@ var token = window.localStorage.getItem('token');
 
 //===============================
 
-  $("form#register").on("submit", createUser);
+  $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
   
 
-  register();
+  getUsers();
   
 });
 
 //==============================REGISTER==========================
-function createUser(){
+function register(){
   event.preventDefault();
 
   $.ajax({
@@ -67,7 +67,7 @@ function login(){
 };
 
 //==========================USERS INDEX=================================
-  function register() {
+  function getUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
 
 
