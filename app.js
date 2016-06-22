@@ -3,9 +3,13 @@ var app = express();
 // var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var cors = require('cors');
+
+
+app.use(cors());
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/frontend/index-mishal.html');
+  res.sendFile(__dirname + '/frontend/index-copy-mishal.html');
 });
 
 app.use(express.static(__dirname + '/frontend'));
