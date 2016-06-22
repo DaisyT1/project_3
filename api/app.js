@@ -8,13 +8,12 @@ var routes = require("./config/routes.js")
 var mongoose = require('mongoose')
 var cors = require('cors')
 
-// var Location = require('./models/location');
-// Location.collection.drop();
-
 
 mongoose.connect('mongodb://localhost/project3');
-
-
+// var Location = require('./models/location');
+// Location.collection.drop();
+// var User = require('./models/user');
+// User.collection.drop();
 
 app.use(cors());
 

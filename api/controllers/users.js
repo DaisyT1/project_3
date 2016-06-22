@@ -86,9 +86,11 @@ function addFriend(req, res) {
 }
 
 function requestFriend(req, res) {
-  User.findById(req.body.friend_requests, function(err, requestee) {
+  // console.log(req.body.requester.id)
+  // console.log(req.body.requestee.id)
+  User.findById(req.body.requestee.id, function(err, requestee) {
     if(err) return res.status(500).json({ message: err });
-    User.findById(req.params.id, function(err, requester){
+    User.findById(req.body.requester.id, function(err, requester){
       if(!requestee) return res.status(404).json({message: "Could not request a nonexistent user as a friend"});
       // return res.json(requester.friend_requests);
       // return res.json(requestee.id);
@@ -102,8 +104,8 @@ function requestFriend(req, res) {
         });
       }
     });
-    User.findById(req.params.id, function(err, requester) {
-      User.findByIdAndUpdate(req.body.friend_requests,{
+    User.findById(req.body.requester.id, function(err, requester) {
+      User.findByIdAndUpdate(req.body.requestee.id,{
         $push: {"friends_requested": requester}},
         {safe: true, upsert: true, new : true},
         function(err, requester) {
