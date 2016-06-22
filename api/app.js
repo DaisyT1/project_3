@@ -8,38 +8,12 @@ var routes = require("./config/routes.js")
 var mongoose = require('mongoose')
 var cors = require('cors')
 
+// var Location = require('./models/location');
+// Location.collection.drop();
 
 mongoose.connect('mongodb://localhost/project3');
-// var User = require('./models/user'); 
-// User.collection.drop();
 
-app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
- next();
-});
-
-app.get('/', function(req, res, next) {
- // Handle the get for this route
-});
-
-app.post('/', function(req, res, next) {
-// Handle the post for this route
-});
-
-app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
- next();
-});
-
-app.get('/', function(req, res, next) {
- // Handle the get for this route
-});
-
-app.post('/', function(req, res, next) {
-// Handle the post for this route
-});
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
