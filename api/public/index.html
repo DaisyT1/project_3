@@ -160,12 +160,7 @@
 
     socket.on('chat message' , function(message){
       // var location = message.split(" ");
-      var socketMassage = {
-        actualLat: "",
-        actualLong: "",
-        destLat: "",
-        destLong: ""
-      };
+
       $("#friendLat").val(message.actualLat);
       $("#friendLong").val(message.actualLong);
       $("#friendDestLat").val(message.destLat);

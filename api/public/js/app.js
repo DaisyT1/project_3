@@ -428,7 +428,6 @@ function navbarToggle() {
   });
 
   function getDirectionsMyLocationToSomewhere(lat, long) {
-      socket.emit('chat message', myPostion);
       navigator.geolocation.getCurrentPosition(function(position){
         var destiLatLng = lat+","+long;
         var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
@@ -459,8 +458,15 @@ function navbarToggle() {
            });
           }   
       });
-
-      socket.emit('chat message', myPostion);    
+      var socketMassage = {
+        actualLat: "",
+        actualLong: "",
+        destLat: "",
+        destLong: ""
+      };
+      socketMassage.destLat = lat;
+      socketMassage.destLong = long;
+      socket.emit('chat message', socketMassage);    
   };
 
   function getDirectionsFriendLocationToSomewhere(lat, long) {
@@ -528,8 +534,12 @@ function navbarToggle() {
 
         // console.log(position.coords.latitude,position.coords.longitude);
 
-        var myPostion = position.coords.latitude+" "+position.coords.longitude
-        socket.emit('chat message', myPostion);
+        // var myPostion = position.coords.latitude+" "+position.coords.longitude
+
+        socketMassage.actualLat = position.coords.latitude;
+        socketMassage.actualLong = position.coords.longitude;
+
+        socket.emit('chat message', socketMassage);
         //socket.broadcast.emit('friend location', position.coords.longitude);
         friendMarker
         if (marker != undefined) {
