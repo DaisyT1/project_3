@@ -11,12 +11,15 @@ var token = window.localStorage.getItem('token');
   $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
+  $("#logoutButton").on("click", logout);
   $("form#allLocations").on("submit", createLocation);
-
+   
 //================================================================  
   getUsers();
   hideAllDivs();
   navbarToggle();
+  showCurrentUser();
+   
   // showLocations();
  
   
@@ -71,7 +74,9 @@ function showLocations(user) {
     })
   //console.log(thisUser_id);
 };
-//=======================REGISTER/LOGIN==========================
+
+//=========================REGISTER - LOGIN  -LOGOUT==========================
+
 function register(){
   event.preventDefault();
   $.ajax({
@@ -103,11 +108,27 @@ function login(){
     function(data){
         window.localStorage.setItem('token' , data.token);
         console.log('logged in');
-        $.ajaxSetup({
-            headers: { 'Authorisation': 'Bearer ' + data.token }
-        });
-    });
-};
+          $.ajaxSetup({
+                   headers: { 'Authorisation': 'Bearer ' + data.token }
+               });
+           }).done(function(){
+
+             showCurrentUser();
+
+             window.location.reload();
+           })
+        };
+
+        function removeToken() {
+         return localStorage.removeItem("token");
+        }
+
+
+        function logout(){
+         removeToken();
+         window.location.reload();
+        };
+
 //==========================USERS INDEX=================================
   function getUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
@@ -133,6 +154,7 @@ function getElements(user, div){
 function getToken() {
   return localStorage.getItem('token');
 }
+
 function currentUser() {
   var token = getToken();
   if(token) {
@@ -146,6 +168,23 @@ var thisUser = currentUser()
 console.log(thisUser._id)
 
 //====================EDIT USER=======================
+
+
+function showCurrentUser() {
+ var user = currentUser()
+
+ if(user) {
+   $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
+ } else {
+   $('.nav').append("<li><a href='#'>Signin</a></li>")
+ }
+}
+
+
+//===================================
+
+//EDIT USER
+
 function editUser(){
   $.ajax({
     method: 'get',
