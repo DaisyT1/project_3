@@ -14,6 +14,7 @@ function login(req, res) {
 
     return res.status(200).json({ message: "Login successful", user: user, token: token });
   });
+  //console.log("api authentication");
 }
 
 function register(req, res) {
