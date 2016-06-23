@@ -3,7 +3,9 @@ $(function(){
   var markers = [];
   var marker;
   var friendMarker;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var destinationMarker;
+  var friendDestinationMarker;
+  //var directionsDisplay = new google.maps.DirectionsRenderer;
   var directionsService = new google.maps.DirectionsService;
   var address;
   var myLocation;
@@ -342,10 +344,22 @@ function navbarToggle() {
   
   var canvas = document.getElementById("map-canvas");
 
+  var myStyles =[
+      {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [
+                { visibility: "off" }
+          ]
+      }
+  ];
+
+
   var mapOptions = {
-    zoom:12,
+    zoom:10,
     center: new google.maps.LatLng(51.506178,-0.088369),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: myStyles
   }
 
   var map = new google.maps.Map(canvas , mapOptions);
@@ -428,8 +442,16 @@ function navbarToggle() {
   (function test() {
     console.log("test");
   });
+  var markersArray = [];
+  function clearMarkers() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+      }
+    
+  }
 
   function getDirectionsMyLocationToSomewhere(lat, long) {
+      clearMarkers();
       navigator.geolocation.getCurrentPosition(function(position){
         var destiLatLng = lat+","+long;
         var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
@@ -453,19 +475,46 @@ function navbarToggle() {
             if (status === google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
               var leg = response.routes[ 0 ].legs[ 0 ];
-              //makeMarker( leg.start_location, '/images/study.png', "title" );
+              
+              if (marker != undefined) {
+                // Marker already created - Move it
+                marker.setPosition(leg.start_location);
+              }
+              else {
+                // Marker does not exist - Create it
+                marker = new google.maps.Marker({
+                  position: leg.start_location,
+                  map: map,
+                  draggable: true,
+                  icon: '/images/marker.png'
+                });
+              }
+              if (destinationMarker != undefined) {
+                // Marker already created - Move it
+                marker.setPosition(leg.end_location);
+              } else {
+                // Marker does not exist - Create it
+                destinationMarker = new google.maps.Marker({
+                  position: leg.end_location,
+                  map: map,
+                  draggable: true,
+                  icon: '/images/marker.png'
+                });
+              }
+              makeMarker( leg.start_location, '/images/study.png', "title" );
               makeMarker( leg.end_location, '/images/marker.png', 'title' );
             } else {
               window.alert('Directions request failed due to ' + status);
             }
           });
           function makeMarker( position, icon, title ) {
-           new google.maps.Marker({
+           var marker = new google.maps.Marker({
             position: position,
             map: map,
             icon: icon,
             title: title
            });
+           markers.push(marker);
           } 
           socketMassage.lat = position.coords.latitude;
           socketMassage.long = position.coords.longitude;
@@ -554,7 +603,7 @@ function navbarToggle() {
 
         socket.emit('chat message', socketMassage);
         //socket.broadcast.emit('friend location', position.coords.longitude);
-        friendMarker
+        //friendMarker
         if (marker != undefined) {
           // Marker already created - Move it
           marker.setPosition(newPoint);
@@ -579,7 +628,7 @@ function navbarToggle() {
         });
 
         // Center the map on the new position
-        map.setCenter(newPoint);
+        map.setCenter();
       }); 
 
 
@@ -628,7 +677,7 @@ function navbarToggle() {
           });
 
           // Center the map on the new position
-          map.setCenter(newPoint);
+          map.setCenter();
         }); 
 
         if ($("#friendDestLat").val() == "") {
@@ -642,7 +691,7 @@ function navbarToggle() {
         
         // // Call the autoUpdate() function every 5 seconds
 
-        setTimeout(startTrackMyFriend, 3000);
+        setTimeout(startTrackMyFriend, 5000);
   };
   
 });//END OF DOCUMENT READY
