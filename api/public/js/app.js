@@ -255,6 +255,7 @@ function navbarToggle() {
    $("#brand").click(function(){
     hideAllDivs()
     $("#map-canvas").show('medium');
+    $("#burger-menu").collapse()
   })
   $("#locationButton").click(function(){
     $("#location").slideToggle("medium");
@@ -269,6 +270,7 @@ function navbarToggle() {
  })
   $("#regButton").click(function(){
     $("#register").slideToggle("medium");
+    $("#burger-menu").collapse('hide')
   })
   $("#editProfButton").click(function(){
     $("#editProfile").slideToggle("medium");
@@ -280,3 +282,4 @@ function navbarToggle() {
     $("#logout").slideToggle("medium");
   })
 }
+
