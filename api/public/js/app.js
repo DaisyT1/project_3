@@ -153,7 +153,7 @@ function getElements(user, div){
   "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
   "<p>" + user.email  + "</p>" +
-  "<button class='btn btn-primary' id='locationButton' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
+  "<button class='btn btn-primary' id='locationButton' id='btn-color' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
   "<button class='btn btn-primary'>Send</button>" + 
   "<button class='btn btn-primary'>Accept</button>"
   $(div).append(person);
@@ -187,8 +187,13 @@ function showCurrentUser() {
 
  if(user) {
    $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
- } else {
-   $('.nav').append("<li><a href='#'>Signin</a></li>")
+   $('#loginButton').hide();
+ } 
+ if (!user) {
+   $('#logoutButton').hide();
+   $('#editProfButton').hide();
+   $('.dropdown-toggle').hide();
+   $('#locationButton').hide();
  }
 }
 
@@ -545,7 +550,7 @@ function navbarToggle() {
               
               $(users.locations).each(function(index, location){
             
-                  $('.dropdown-menu').append('<li id="'+location.lat+' '+location.long+'"><span class="glyphicon glyphicon-map-marker" style="display: inline-block;"></span>'+location.name+'</li>');
+                  $('.dropdown-menu').append('<li class="locName" id="'+location.lat+' '+location.long+'"><span class="glyphicon glyphicon-map-marker"></span>'+location.name+'</li>');
 
               });
               

@@ -30,5 +30,50 @@ color: #74AFAD;
 }
 
 #locationName {
-  width: 100%;
+  width: 70%;
 }
+
+.navbar-nav > li > .dropdown-menu {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-radius: 6px;
+    width: 15em;
+    text-align: center;
+  }
+
+  .locName {
+    cursor: pointer;
+    text-align: left;
+  }
+
+  form {
+    text-align: center;
+  }
+
+  #btn-color {
+    background-color: #74AFAD;
+    border-color: #ECECEA;
+  }
+
+  #btn-color:hover {
+      background-color: #D9853B;
+  }
+
+  #searchLocButton {
+    background-color: #74AFAD;
+    border-color: #ECECEA;
+  }
+
+  #searchLocButton:hover {
+      background-color: #D9853B;
+  }
+
+  #saveLoc {
+    background-color: #74AFAD;
+    border-color: #ECECEA;
+  }
+
+  #saveLoc:hover {
+      background-color: #D9853B;
+  }
