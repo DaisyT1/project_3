@@ -32,10 +32,12 @@ var token = window.localStorage.getItem('token');
 //===============================  FUNCTION FOR LOCATIONS PER USER AND SERCHING ON MAP ON CLICK LINE 88 HTML
   $(".dropdown-menu").on("click", "li", function(event){
        // console.log(this.id);
-       // socketMassage = this.id.split(" ");
-       //console.log(res[0],res[1]);
+      res = this.id.split(" ");
+      socketMassage.destLat = res[0],
+      socketMassage.destLong = res[1],
+      //console.log(res[0],res[1]);
 
-       getDirectionsMyLocationToSomewhere(socketMassage.actualLat,socketMassage.actualLong);
+       getDirectionsMyLocationToSomewhere(res[0],res[1]);
    });
 
 //================================================================  
@@ -431,6 +433,14 @@ function navbarToggle() {
       navigator.geolocation.getCurrentPosition(function(position){
         var destiLatLng = lat+","+long;
         var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+          console.log(originLatlng);
+          console.log(destiLatLng);
+
+          directionsDisplay = new google.maps.DirectionsRenderer({
+              polylineOptions: {
+                strokeColor: "orange"
+              }
+            });
 
           directionsDisplay.setMap(map);
 
@@ -456,20 +466,28 @@ function navbarToggle() {
             icon: icon,
             title: title
            });
-          }   
+          } 
+          socketMassage.lat = position.coords.latitude;
+          socketMassage.long = position.coords.longitude;
+          socketMassage.destLat = lat;
+          socketMassage.destLong = long;
+          socket.emit('chat message', socketMassage);   
       });
 
-      socketMassage.destLat = lat;
-      socketMassage.destLong = long;
-      socket.emit('chat message', socketMassage);    
+         
   };
   
-  function getDirectionsFriendLocationToSomewhere(lat, long) {
+  function getDirectionsFriendLocationToSomewhere() {
 
-      navigator.geolocation.getCurrentPosition(function(){
+      navigator.geolocation.getCurrentPosition(function(position){
         var destiLatLng = socketMassage.destLat+","+socketMassage.destLong;
-        var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+        var originLatlng = new google.maps.LatLng( position.coords.latitude,position.coords.longitude);
 
+          directionsDisplay = new google.maps.DirectionsRenderer({
+              polylineOptions: {
+                strokeColor: "blue"
+              }
+            });
           directionsDisplay.setMap(map);
 
           directionsService.route({
@@ -576,55 +594,57 @@ function navbarToggle() {
           alert("Sorry not online, go have a beer ...")
       } else {
           trackMyFriend();
-          getDirectionsFriendLocationToSomewhere();
-          $("#friendLat").val() = "";
-          $("#friendLong").val() = "";
       }
   };
 
+
   function trackMyFriend() {
       navigator.geolocation.getCurrentPosition(function(position) {  
+
         var newPoint = new google.maps.LatLng($("#friendLat").val(), 
                                               $("#friendLong").val());
 
-        if ($(#friendDest).val() == "") {
+          if (friendMarker != undefined) {
+            // Marker already created - Move it
+            friendMarker.setPosition(newPoint);
+          }
+          else {
+            // Marker does not exist - Create it
+            friendMarker = new google.maps.Marker({
+              position: newPoint,
+              map: map,
+              draggable: true,
+              icon: '/images/Maradona.png'
+            });
+          };
+
+          var infoWindow = new google.maps.InfoWindow({
+            content: 'My Friend'
+          });
+
+          // Opens the InfoWindow when marker is clicked.
+          friendMarker.addListener('click', function() {
+            infoWindow.open(map, friendMarker);
+          });
+
+          // Center the map on the new position
+          map.setCenter(newPoint);
+        }); 
+
+        if ($("#friendDestLat").val() == "") {
           console.log("friend has no dest yet");
         } else {
           console.log("friend has dest");
-          $(#friendDest).val("");
-        };
-        
-        if (friendMarker != undefined) {
-          // Marker already created - Move it
-          friendMarker.setPosition(newPoint);
+          getDirectionsFriendLocationToSomewhere();
+          //$("#friendDestLat").val("");
+          //$("#friendDestLong").val("");
         }
-        else {
-          // Marker does not exist - Create it
-          friendMarker = new google.maps.Marker({
-            position: newPoint,
-            map: map,
-            draggable: true,
-            icon: '/images/Maradona.png'
-          });
-        };
+        
+        // // Call the autoUpdate() function every 5 seconds
 
-        var infoWindow = new google.maps.InfoWindow({
-          content: 'My Friend'
-        });
-
-        // Opens the InfoWindow when marker is clicked.
-        friendMarker.addListener('click', function() {
-          infoWindow.open(map, friendMarker);
-        });
-
-        // Center the map on the new position
-        map.setCenter(newPoint);
-      }); 
-
-      // Call the autoUpdate() function every 5 seconds
-      setTimeout(startTrackMyFriend, 3000);
-
+        setTimeout(startTrackMyFriend, 3000);
   };
+  
 });//END OF DOCUMENT READY
 //================================================================
 
