@@ -1,3 +1,5 @@
+
+
 $(function(){  
   $(document).ready(function(){
 
@@ -464,23 +466,30 @@ function navbarToggle() {
   }
 
   function getDirectionsMyLocationToSomewhere(lat, long) {
-      var latLng = lat+","+long
-      directionsDisplay.setMap(map);
 
-      directionsService.route({
-        origin: "se1 3sa",
-        destination: latLng,
-        // "33.661565,73.041330",
-        travelMode: google.maps.TravelMode.WALKING
-      }, function(response, status) {
-        if (status === google.maps.DirectionsStatus.OK) {
-          directionsDisplay.setDirections(response);
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      });
-      
-  }
+
+
+      navigator.geolocation.getCurrentPosition(function(position){
+        var destiLatLng = lat+","+long;
+        var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+
+          directionsDisplay.setMap(map);
+
+          directionsService.route({
+            origin: originLatlng,
+            destination: destiLatLng,
+            // "33.661565,73.041330",
+            travelMode: google.maps.TravelMode.WALKING
+          }, function(response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(response);
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+          });
+
+      });      
+  };
 
   function loadUserDropDownLocation(user) {
       var person;
@@ -499,23 +508,12 @@ function navbarToggle() {
             
                   $('.dropdown-menu').append('<li id="'+location.lat+' '+location.long+'">'+location.name+'</li>');
 
-                  //$('.dropdown-menu').append('<li id="userLcation">aaaa</li>');
-                  // $('.dropdown-menu').append('<li id="fasfs">aaaa</li>');
-                  // $('.dropdown-menu').append('<li id="fasfs">aaaa</li>');
-                  // $('#index').append(
-                  //    "location id "+ location._id + "<br>" +
-                  //    "location name "+ location.name + "<br>" +
-                  //    "location id "+ user._id + "<br>" +
-                  //    "<input type='button' name='test' value='test'>"
-                      
-                  // );
-
-              })
+              });
               
-          })
+          });
 
-        })
-  }
+        });
+  };
 
  
 });

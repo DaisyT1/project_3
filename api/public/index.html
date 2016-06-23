@@ -8,7 +8,8 @@
   <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
- 
+  
+  <script src="/socket.io/socket.io.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q&libraries=places" charset="utf-8"></script>
   <script type="text/javascript" src="./js/map.js" charset="utf-8"></script>
   <script type="text/javascript" src="./js/app.js"></script>
@@ -130,6 +131,25 @@
       </div>
     </div>
   </main>
+  <script>
+    var socket = io.connect('http://localhost:3000');
+    // var socket = io();
 
+    socket.on('chat message' , function(message){
+
+      // var messageElement = $("<li></li>").html(message);
+      // $("#messages").prepend(messageElement);
+      console.log(message)
+    });
+
+    $('sendMsg').click(function(e){
+        // socket.emit('chat message', $('#m').val());
+        // $('#m').val('');
+        console.log("test")
+        socket.emit('chat message', "hello");
+        
+        return false;
+    });
+  </script>
 </body>
 </html>

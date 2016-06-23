@@ -13,6 +13,7 @@ var io = require('socket.io')(http);
 // var Location = require('./models/location');
 // Location.collection.drop();
 
+
 mongoose.connect('mongodb://localhost/project3');
 
 app.use(cors());
@@ -62,6 +63,7 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
   // console.log(__dirname + '/public/index-copy-mishal.html')
 });
+
 
 // THIS IS FOR HEROKU SERVER
 // var port = process.env.PORT;
