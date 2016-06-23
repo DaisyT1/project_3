@@ -40,8 +40,10 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#" id="locationButton">Add location</a></li>
-          <li><a href="#" id="addFriend">Find friends</a></li>
-          <li><a href="#" id="friendReq">Friend requests</a></li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Find friends<span class="caret"></span></a>
+              <ul class="dropdown-menu"></ul>
+          </li>
           <li><a href="#" id="regButton">Register</a></li>
           <li><a href="#" id="editProfButton">Edit profile</a></li>
           <li><a href="#" id="loginButton">Login</a></li>
@@ -67,7 +69,6 @@
         </form>
       </div>
       
-
       <div class="form">
         <form id="login" class="form-inline">
           <input type="text" id='loginemail' placeholder="Email address" class="form-control">
@@ -78,32 +79,32 @@
 
 <!--       //==============================LOCATION SEARCH AND RETURN============================
       //================================================================ -->      
-      <div class="form2" id="allLocations">
-        <form id="allLocations" >
-          <input type="text" id='locationName' placeholder="Name">
-          <input type="text" id='locationLat' placeholder="Lat">
-          <input type="text" id='locationLng' placeholder="Lng">
-          <input type="submit" value='Add Location'>
+      <div class="form">
+        <form id="allLocations" class="form-inline">
+          <input type="text" id='locationName' placeholder="Name" class="form-control">
+          <input type="hidden" id='locationLat' placeholder="Lat" >
+          <input type="hidden" id='locationLng' placeholder="Lng">
+          <input id="saveLoc" type="submit" value='Save location' class="btn btn-primary">
         </form>
       </div>
 
-<!--       //==============================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
+<!--       //====================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
       //================================================================ --> 
-      <div class="dropdown">
+<!--       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="#">Users and Locations</a></li>
             <li class="divider"></li>          
         </ul>
-      </div>
+      </div> -->
 
       <div class="form">
-        <form id="location">
+        <form id="location-search">
 
-          <input id="pac-input" class="controls form-control" type="text" placeholder="Search Box">
+          <input id="pac-input" class="controls form-control" type="text" placeholder="Enter address">
           <!-- <input type="text" name='Search' placeholder="Search" class="form-control"> -->
-          <input type="submit" value='Add' class="btn btn-primary">
+          <input type="submit" value='Search' class="btn btn-primary" id="searchLocButton">
       </div>
       
     
@@ -138,17 +139,17 @@
       <div id="index">
         <h1>Index</h1>
       </div>
-      <input type="text" id="friendLat" placeholder="Lat">
-      <button>Send</button>
-      <input type="text" id="friendLong" placeholder="Long">
+  <!-- ================================= HIDDEN INPUTS ====================================== -->
+        <input id="friendLat" placeholder="Lat" type="hidden">
+        <input id="friendLong" placeholder="Long" type="hidden">
       <div id="row">
         <div id="map-canvas" class="col-sm-12">
         </div>
       </div>
       <div id="otherUserShow">
       </div>
-      <div id="locationShow">
-    </div>
+    <!--   <div id="locationShow">
+    </div> -->
   </main>
   <script>
     //NODEMON  ready

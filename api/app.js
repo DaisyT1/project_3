@@ -13,6 +13,9 @@ var io = require('socket.io')(http);
 // var Location = require('./models/location');
 // Location.collection.drop();
 
+// var User = require('./models/user');
+// User.collection.drop();
+
 mongoose.connect( process.env.MONGODB_URI || 'mongodb://localhost/project3');
 
 app.use(cors());
