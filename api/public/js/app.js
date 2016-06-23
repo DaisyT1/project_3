@@ -515,7 +515,7 @@ function navbarToggle() {
           }   
       });    
   };
-
+ 
   function loadUserDropDownLocation(user) {
       var person;
       if (user == "current") {
