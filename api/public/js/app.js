@@ -3,9 +3,14 @@ $(function(){
   var markers = [];
   var marker;
   var friendMarker;
+  var startMarker;
   var destinationMarker;
+  var friendstartMarker;
   var friendDestinationMarker;
-  //var directionsDisplay = new google.maps.DirectionsRenderer;
+  var directionsDisplay = new google.maps.DirectionsRenderer(
+    {
+        suppressMarkers: true
+    });
   var directionsService = new google.maps.DirectionsService;
   var address;
   var myLocation;
@@ -15,7 +20,7 @@ $(function(){
     destLat: "",
     destLong: ""
   };
-
+  var friendDirection; 
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
    if (token) {
@@ -38,9 +43,17 @@ var token = window.localStorage.getItem('token');
       socketMassage.destLat = res[0],
       socketMassage.destLong = res[1],
       //console.log(res[0],res[1]);
-
-       getDirectionsMyLocationToSomewhere(res[0],res[1]);
+      
+      getDirectionsMyLocationToSomewhere(res[0],res[1]);
    });
+
+  $('#friendDestLat').on("change", function () {
+    getDirectionsFriendLocationToSomewhere();
+  });
+
+  $('#friendDestLong').on("change", function () {
+    getDirectionsFriendLocationToSomewhere();
+  });
 
 //================================================================  
   getUsers();
@@ -339,7 +352,8 @@ function navbarToggle() {
   $('#locateMyFriend').click( function(e) {
     e.preventDefault(); /*your_code_here;*/
     //getMyLocation();
-    startTrackMyFriend(); 
+    startTrackMyFriend();
+    getDirectionsFriendLocationToSomewhere(); 
   });
   
   var canvas = document.getElementById("map-canvas");
@@ -460,9 +474,12 @@ function navbarToggle() {
 
           directionsDisplay = new google.maps.DirectionsRenderer({
               polylineOptions: {
-                strokeColor: "orange"
+                strokeColor: "orange",
+                suppressMarkers: true
               }
             });
+
+        
 
           directionsDisplay.setMap(map);
 
@@ -476,46 +493,35 @@ function navbarToggle() {
               directionsDisplay.setDirections(response);
               var leg = response.routes[ 0 ].legs[ 0 ];
               
-              if (marker != undefined) {
+              if (startMarker != undefined) {
                 // Marker already created - Move it
-                marker.setPosition(leg.start_location);
+                startMarker.setPosition(leg.start_location);
               }
               else {
                 // Marker does not exist - Create it
-                marker = new google.maps.Marker({
+                startMarker = new google.maps.Marker({
                   position: leg.start_location,
                   map: map,
-                  draggable: true,
+                  //draggable: true,
                   icon: '/images/marker.png'
                 });
               }
               if (destinationMarker != undefined) {
                 // Marker already created - Move it
-                marker.setPosition(leg.end_location);
+                destinationMarker.setPosition(leg.end_location);
               } else {
                 // Marker does not exist - Create it
                 destinationMarker = new google.maps.Marker({
                   position: leg.end_location,
                   map: map,
-                  draggable: true,
+                  //draggable: true,
                   icon: '/images/marker.png'
                 });
               }
-              makeMarker( leg.start_location, '/images/study.png', "title" );
-              makeMarker( leg.end_location, '/images/marker.png', 'title' );
             } else {
               window.alert('Directions request failed due to ' + status);
             }
           });
-          function makeMarker( position, icon, title ) {
-           var marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            icon: icon,
-            title: title
-           });
-           markers.push(marker);
-          } 
           socketMassage.lat = position.coords.latitude;
           socketMassage.long = position.coords.longitude;
           socketMassage.destLat = lat;
@@ -534,9 +540,13 @@ function navbarToggle() {
 
           directionsDisplay = new google.maps.DirectionsRenderer({
               polylineOptions: {
-                strokeColor: "blue"
+                strokeColor: "blue",
+                suppressMarkers: true
               }
             });
+
+          
+
           directionsDisplay.setMap(map);
 
           directionsService.route({
@@ -548,20 +558,39 @@ function navbarToggle() {
             if (status === google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
               var leg = response.routes[ 0 ].legs[ 0 ];
-              //makeMarker( leg.start_location, '/images/study.png', "title" );
-              makeMarker( leg.end_location, '/images/marker.png', 'title' );
+              
+              if (friendstartMarker != undefined) {
+                // Marker already created - Move it
+                friendstartMarker.setPosition(leg.start_location);
+              }
+              else {
+                // Marker does not exist - Create it
+                friendstartMarker = new google.maps.Marker({
+                  position: leg.start_location,
+                  map: map,
+                  draggable: true,
+                  icon: '/images/marker.png'
+                });
+              }
+              if (friendDestinationMarker != undefined) {
+                // Marker already created - Move it
+                friendDestinationMarker.setPosition(leg.end_location);
+              } else {
+                // Marker does not exist - Create it
+                friendDestinationMarker = new google.maps.Marker({
+                  position: leg.end_location,
+                  map: map,
+                  draggable: true,
+                  icon: '/images/marker.png'
+                });
+              }
+
+
+
             } else {
               window.alert('Directions request failed due to ' + status);
             }
           });
-          function makeMarker( position, icon, title ) {
-           new google.maps.Marker({
-            position: position,
-            map: map,
-            icon: icon,
-            title: title
-           });
-          }   
       });    
   };
  
@@ -684,7 +713,7 @@ function navbarToggle() {
           console.log("friend has no dest yet");
         } else {
           console.log("friend has dest");
-          getDirectionsFriendLocationToSomewhere();
+          
           //$("#friendDestLat").val("");
           //$("#friendDestLong").val("");
         }
