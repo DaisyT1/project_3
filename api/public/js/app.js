@@ -205,6 +205,7 @@ function navbarToggle() {
     $('.navbar-collapse').removeClass('in');
   })
   $("#locationButton").click(function(){
+    $('.navbar-collapse').removeClass('in');
     $("#location").slideToggle("medium");
   })
   $("#addFriend").click(function(){
@@ -212,21 +213,27 @@ function navbarToggle() {
     $('.navbar-collapse').removeClass('in');
     $("#index").slideToggle("slow");
     $("#map-canvas").slideToggle("slow");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#friendReq").click(function(){
     $("#").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
  })
   $("#regButton").click(function(){
     $("#register").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#editProfButton").click(function(){
     $("#editProfile").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#loginButton").click(function(){
     $("#login").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#logoutButton").click(function(){
     $("#logout").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $('#map-canvas').click(function(){
     $('.navbar-collapse').removeClass('in');
