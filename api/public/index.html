@@ -26,7 +26,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-<!--       //==============================MISHAL============================
+<!--       //==============================ADDED ON MENU TO GET MYLOCATION AND FRIEND LOCATIO============================
       //================================================================ -->  
         <a class="navbar-brand" href="#" id="locateMe"> <img src="http://www.5days2016.es/images/iconos/location-icon.png" height="25" width="25"> </a>
        <a class="navbar-brand" href="#" id="locateMyFriend"> <img src="https://cdn3.iconfinder.com/data/icons/gray-user-toolbar/512/genealogy-512.png" height="25" width="25"> </a>
@@ -54,8 +54,8 @@
   <!--//////////////////////// END OF NAVBAR ////////////////////////-->
   <main>
   <div class="container-fluid">
-      <div class="form" id="register">
-        <form >
+      <div class="form">
+        <form id="register" class="form-inline">
         <fieldset class="form-group">
           <input type="text" id='name' name="user[name]" placeholder="Name" class="form-control">
           <input type="text" id='email' name="user[email]" placeholder="Email address" class="form-control">
@@ -66,14 +66,15 @@
         </form>
       </div>
       
-      <div class="form" id="login">
-        <form >
+      <div class="form">
+        <form id="login" class="form-inline">
           <input type="text" id='loginemail' placeholder="Email address" class="form-control">
           <input type="password" id='loginpassword' placeholder="Password" class="form-control">
           <input type="submit" value='Login' class="btn btn-primary">
         </form>
       </div>
-<!--       //==============================MISHAL============================
+
+<!--       //==============================LOCATION REARCH AND RETURN============================
       //================================================================ -->      
       <div class="form2" id="allLocations">
         <form id="allLocations" >
@@ -84,6 +85,8 @@
         </form>
       </div>
 
+<!--       //==============================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
+      //================================================================ --> 
       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
         <span class="caret"></span></button>
@@ -99,20 +102,23 @@
           <input type="submit" value='Add' class="btn btn-primary">
       </div>
       
-
-
     
 <!--       //==============================MISHAL============================
       //================================================================ -->
 <!--       <div class="form" id="location">
         <form>
+=======
+      
+      <div class="form">
+        <form id="location" class="form-inline">
+>>>>>>> e899f022278c7345ff49b0085dcbc40088370887
           <input type="text" name='Search' placeholder="Search" class="form-control">
           <input type="submit" value='Add' class="btn btn-primary">
         </form>
       </div>
  -->      
       <div id="editProfile" class="form">
-        <form>
+        <form class="form-inline">
           <input type="text" name='name' id="edit-name" placeholder="Name" class="form-control">
           <input type="text" name='email' id="edit-email" placeholder="Email address" class="form-control">
           <input type="password" name='password' id="edit-password" 
@@ -134,9 +140,11 @@
       </div>
       <div id="otherUserShow">
       </div>
+      <div id="locationShow">
     </div>
   </main>
   <script>
+    //NODEMON  ready
     var socket = io.connect('http://localhost:3000');
 
     //heroku ready
@@ -148,13 +156,6 @@
       $("#friendLong").val(location[1]);
     });
 
-
-    // $("button").click(function(){
-    //     event.preventDefault();
-    //     socket.emit('chat message', "hello");
-    //     //socket.broadcast.emit('chat message', "hello");
-    //     return false;
-    // });
   </script>
 </body>
 </html>

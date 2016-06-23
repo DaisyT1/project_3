@@ -1,27 +1,21 @@
-
-
 $(function(){  
-  $(document).ready(function(){
-
-
-    
+  
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
-
    if (token) {
        $.ajaxSetup({
            headers: { 'Authorisation': 'Bearer ' + token }
        });
    }
 
-
 //===============================
-
   $("form#register").on("submit", register);
   $("form#login").on("submit", login);
   $('body').on('click', '.edit', editUser);
+  $("#logoutButton").on("click", logout);
   $("form#allLocations").on("submit", createLocation);
 
+//===============================  FUNCTION FOR LOCATIONS PER USER AND SERCHING ON MAP ON CLICK LINE 88 HTML
   $(".dropdown-menu").on("click", "li", function(event){
        // console.log(this.id);
        var res = this.id.split(" ");
@@ -30,17 +24,12 @@ var token = window.localStorage.getItem('token');
    });
 
 //================================================================  
-
-
   getUsers();
   hideAllDivs();
   navbarToggle();
+  showCurrentUser();
+  // showLocations();
  
-  
-});//END OF DOCUMENT READY
-
-//================================================================
-
 function createLocation() {
     event.preventDefault();
 
@@ -68,20 +57,34 @@ function showLocations(user) {
       user = thisUser._id;
   }
   var url = "http://localhost:3000/api/"+user+"/locations"
-  $.get(url , function(locations) {
-      console.log(locations);
-      $(locations).each(function(index, location){
-        console.log(location);
-      })
 
+  $.get(url , function(locations) {
+      $(locations).each(function(index, location){
+        console.log(location._id);
+        console.log(location.name);
+        console.log(location.lat);
+        console.log(location.long);
+
+        var place = 
+          "<p>" + location._id  + "</p>" +
+          "<p>" + location.name  + "</p>" +
+          "<p>" + location.lat  + "</p>" +
+          "<p>" + location.long  + "</p>" 
+
+          $("#locationShow").append(place);
+
+      $("#locationButton").click(function(){
+        $("#locationShow").slideToggle("medium");
+        })
+      })
     })
   //console.log(thisUser_id);
 };
 
-//==============================REGISTER==========================
+//=========================REGISTER - LOGIN  -LOGOUT==========================
+
 function register(){
   event.preventDefault();
-
   $.ajax({
     url:'http://localhost:3000/api/register',
     type:'post',
@@ -102,43 +105,42 @@ function register(){
   });
 }
 
-
 function login(){
+  event.preventDefault();
+  console.log('hello')
+    $.post("http://localhost:3000/api/login" , {
+      "email": $("input#loginemail").val(),
+      "password": $("input#loginpassword").val()
+    },
+    function(data){
+        window.localStorage.setItem('token' , data.token);
+        console.log('logged in');
+          $.ajaxSetup({
+                   headers: { 'Authorisation': 'Bearer ' + data.token }
+               });
+           }).done(function(){
 
- event.preventDefault();
- console.log('hello')
+             showCurrentUser();
 
-   $.post("http://localhost:3000/api/login" , {
-     "email": $("input#loginemail").val(),
-     "password": $("input#loginpassword").val()
-   },
-   function(data){
+             window.location.reload();
+           })
+        };
 
-       window.localStorage.setItem('token' , data.token);
+        function removeToken() {
+         return localStorage.removeItem("token");
+        }
 
-       console.log('logged in');
 
-       $.ajaxSetup({
-           headers: { 'Authorisation': 'Bearer ' + data.token }
-       });
-   }).done(function(){
+        function logout(){
+         removeToken();
+         window.location.reload();
+        };
 
-     showCurrentUser();
-
-     window.location.reload();
-   })
-};
-
-function removeToken() {
- return localStorage.removeItem("token");
-}
 
 //==========================USERS INDEX=================================
   
 function getUsers() {
   $.get("http://localhost:3000/api/users" , function(users) {
-
-
     $(users.users).each(function(index, user){
       loadUserDropDownLocation(user._id)
       // getElements(user , "#index")
@@ -147,45 +149,50 @@ function getUsers() {
   })
 };
 
+function getElements(user, div){
+  var person = 
+  "<p>" + user._id  + "</p>" +
+  "<p>" + user.name  + "</p>" +
+  "<p>" + user.email  + "</p>" +
+  "<button class='btn btn-primary' id='locationButton' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
+  "<button class='btn btn-primary'>Send</button>" + 
+  "<button class='btn btn-primary'>Accept</button>"
+  $(div).append(person);
 
+}
 
 //=========================================================================
 //++++++++++++++ GET THE CURRENT USER +++++++++++++//
-
 function getToken() {
   return localStorage.getItem('token');
 }
 
 function currentUser() {
   var token = getToken();
-
   if(token) {
     var payload = token.split('.')[1];
         payload = window.atob(payload);
         payload = JSON.parse(payload)
-
     return payload
   }
 }
-
 var thisUser = currentUser()
-
 console.log(thisUser._id)
 
-//===================================================
-function getElements(user, div){
 
-  var person = 
-  "<p>" + user._id  + "</p>" +
-  "<p>" + user.name  + "</p>" +
-  "<p>" + user.email  + "</p>"
-  "<p> <button class='btn btn-primary' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button> </p>" +
-  "<button class='btn btn-primary'>Send</button>" + 
-  "<button class='btn btn-primary'>Accept</button>"
+//====================EDIT USER=======================
 
-  $(div).append(person);
 
+function showCurrentUser() {
+ var user = currentUser()
+
+ if(user) {
+   $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
+ } else {
+   $('.nav').append("<li><a href='#'>Signin</a></li>")
+ }
 }
+
 
 //===================================
 
@@ -204,7 +211,6 @@ function editUser(){
   });
   $('#editProfile').on('submit', updateUser);
 }
-
 var updateUser = function(){
   event.preventDefault();
   var user = {
@@ -224,10 +230,7 @@ var updateUser = function(){
     // location.reload();
   });
 }
-
   //================TOGGLING=========================/
-
-  // TOGGLE REGISTER
 
 function hideAllDivs(){
     $("#location").hide();
@@ -236,40 +239,60 @@ function hideAllDivs(){
     $("#editProfile").hide();
     $("#login").hide();
     $("#logout").hide();
+}
 
+function hideAllDivsSlow(){
+    $("#location").hide("slow");
+    $("#index").hide("slow");
+    $("#register").hide("slow");
+    $("#editProfile").hide("slow");
+    $("#login").hide("slow");
+    $("#logout").hide("slow");
 }
 
 function navbarToggle() {
-
-   $("#brand").click(function(){
+  $("#brand").click(function(){
     hideAllDivs()
     $("#map-canvas").show('medium');
+    $('.navbar-collapse').removeClass('in');
   })
   $("#locationButton").click(function(){
+    $('.navbar-collapse').removeClass('in');
     $("#location").slideToggle("medium");
-    $("#locationsShow").slideToggle("medium");
   })
   $("#addFriend").click(function(){
+    // $("#collapse").hide("slow");
+    $('.navbar-collapse').removeClass('in');
     $("#index").slideToggle("slow");
     $("#map-canvas").slideToggle("slow");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#friendReq").click(function(){
-   $("#").slideToggle("medium");
+    $("#").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
  })
   $("#regButton").click(function(){
     $("#register").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#editProfButton").click(function(){
     $("#editProfile").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
   })
   $("#loginButton").click(function(){
     $("#login").slideToggle("medium");
-    login();
+    $('.navbar-collapse').removeClass('in');
   })
   $("#logoutButton").click(function(){
     $("#logout").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
+  })
+  $('#map-canvas').click(function(){
+      $('.navbar-collapse').removeClass('in');
+      hideAllDivsSlow()
   })
 }
+
 
 
 //====================================================================================
@@ -619,4 +642,6 @@ function navbarToggle() {
       setTimeout(startTrackMyFriend, 3000);
 
   };
-});
+});//END OF DOCUMENT READY
+//================================================================
+
