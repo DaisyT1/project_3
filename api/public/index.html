@@ -6,26 +6,37 @@
   <link rel="stylesheet" type="text/css" href="./css/reset.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script type="text/javascript" src="./js/app.js"></script>
+  
+  <script src="/socket.io/socket.io.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q&libraries=places" charset="utf-8"></script>
-  <script src="./js/map.js" charset="utf-8"></script>
+  <script type="text/javascript" src="./js/map.js" charset="utf-8"></script>
+  <script type="text/javascript" src="./js/app.js"></script>
+
 </head>
 <body>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <button type="button" class="navbar-toggle collapsed" id="burger-menu" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
+<!--       //==============================ADDED ON MENU TO GET MYLOCATION AND FRIEND LOCATIO============================
+      //================================================================ -->  
+        <a class="navbar-brand" href="#" id="locateMe"> <img src="http://www.5days2016.es/images/iconos/location-icon.png" height="25" width="25"> </a>
+       <a class="navbar-brand" href="#" id="locateMyFriend"> <img src="https://cdn3.iconfinder.com/data/icons/gray-user-toolbar/512/genealogy-512.png" height="25" width="25"> </a>
+
+
+<!--       //==============================MISHAL============================
+     //================================================================ --> 
         <a class="navbar-brand" href="#" id="brand">Locamate</a>
-      </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
+      </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#" id="locationButton">Add location</a></li>
@@ -35,6 +46,7 @@
           <li><a href="#" id="editProfButton">Edit profile</a></li>
           <li><a href="#" id="loginButton">Login</a></li>
           <li><a href="#" id="logoutButton">Logout</a></li>
+           <a href='#' id='' name=''></a>  
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -42,8 +54,9 @@
   <!--//////////////////////// END OF NAVBAR ////////////////////////-->
   <main>
   <div class="container-fluid">
-      <div class="form" id="register">
-        <form id="register">
+    <div class="form-holder col-xs-9 col-xs-offset-1">
+      <div class="form">
+        <form id="register" class="form-inline">
         <fieldset class="form-group">
           <input type="text" id='name' name="user[name]" placeholder="Name" class="form-control">
           <input type="text" id='email' name="user[email]" placeholder="Email address" class="form-control">
@@ -54,23 +67,63 @@
         </form>
       </div>
       
-      <div class="form" id="login">
-        <form id="login">
+
+      <div class="form">
+        <form id="login" class="form-inline">
           <input type="text" id='loginemail' placeholder="Email address" class="form-control">
           <input type="password" id='loginpassword' placeholder="Password" class="form-control">
           <input type="submit" value='Login' class="btn btn-primary">
         </form>
       </div>
-      
-      <div class="form" id="location">
+
+<!--       //==============================LOCATION SEARCH AND RETURN============================
+      //================================================================ -->      
+      <div class="form2" id="allLocations">
+        <form id="allLocations" >
+          <input type="text" id='locationName' placeholder="Name">
+          <input type="text" id='locationLat' placeholder="Lat">
+          <input type="text" id='locationLng' placeholder="Lng">
+          <input type="submit" value='Add Location'>
+        </form>
+      </div>
+
+<!--       //==============================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
+      //================================================================ --> 
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Users and Locations</a></li>
+            <li class="divider"></li>          
+        </ul>
+      </div>
+
+      <div class="form">
         <form id="location">
+
+          <input id="pac-input" class="controls form-control" type="text" placeholder="Search Box">
+          <!-- <input type="text" name='Search' placeholder="Search" class="form-control"> -->
+          <input type="submit" value='Add' class="btn btn-primary">
+      </div>
+      
+    
+<!--       //==============================MISHAL============================
+      //================================================================ -->
+<!--       <div class="form" id="location">
+        <form>
+=======
+      
+      <div class="form">
+        <form id="location" class="form-inline">
+>>>>>>> e899f022278c7345ff49b0085dcbc40088370887
+>>>>>>> toggle
           <input type="text" name='Search' placeholder="Search" class="form-control">
           <input type="submit" value='Add' class="btn btn-primary">
         </form>
       </div>
-      
+ -->      
       <div id="editProfile" class="form">
-        <form >
+        <form class="form-inline">
           <input type="text" name='name' id="edit-name" placeholder="Name" class="form-control">
           <input type="text" name='email' id="edit-email" placeholder="Email address" class="form-control">
           <input type="password" name='password' id="edit-password" 
@@ -79,17 +132,37 @@
           placeholder="Password Confirmation" class="form-control">
           <input type="submit" id="submit" value='Edit' class="btn btn-primary">
         </form>
-      </div>  
+      </div>
+</div>
+
       <div id="index">
         <h1>Index</h1>
       </div>
+      <input type="text" id="friendLat" placeholder="Lat">
+      <button>Send</button>
+      <input type="text" id="friendLong" placeholder="Long">
       <div id="row">
         <div id="map-canvas" class="col-sm-12">
         </div>
       </div>
       <div id="otherUserShow">
       </div>
+      <div id="locationShow">
     </div>
   </main>
+  <script>
+    //NODEMON  ready
+    var socket = io.connect('http://localhost:3000');
+
+    //heroku ready
+    //var socket = io.connect('https://nameless-escarpment-28913.herokuapp.com/');
+
+    socket.on('chat message' , function(message){
+      var location = message.split(" ");
+      $("#friendLat").val(location[0]);
+      $("#friendLong").val(location[1]);
+    });
+
+  </script>
 </body>
 </html>
