@@ -458,21 +458,16 @@ function navbarToggle() {
            });
           }   
       });
-      var socketMassage = {
-        actualLat: "",
-        actualLong: "",
-        destLat: "",
-        destLong: ""
-      };
+
       socketMassage.destLat = lat;
       socketMassage.destLong = long;
       socket.emit('chat message', socketMassage);    
   };
-
+  
   function getDirectionsFriendLocationToSomewhere(lat, long) {
 
-      navigator.geolocation.getCurrentPosition(function(position){
-        var destiLatLng = lat+","+long;
+      navigator.geolocation.getCurrentPosition(function(){
+        var destiLatLng = socketMassage.destLat+","+socketMassage.destLong;
         var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
 
           directionsDisplay.setMap(map);
@@ -580,7 +575,10 @@ function navbarToggle() {
       if ($("#friendLat").val() == "") {
           alert("Sorry not online, go have a beer ...")
       } else {
-          trackMyFriend()
+          trackMyFriend();
+          getDirectionsFriendLocationToSomewhere();
+          $("#friendLat").val() = "";
+          $("#friendLong").val() = "";
       }
   };
 
