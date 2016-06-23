@@ -306,6 +306,7 @@ function navbarToggle() {
   })
   $("#saveLoc").click(function(){
     $("#allLocations").hide("medium");
+    window.location.reload();
   })
 }
 
