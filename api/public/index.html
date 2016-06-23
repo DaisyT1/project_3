@@ -68,24 +68,29 @@
           </fieldset>
         </form>
       </div>
+  
       
       <div class="form">
+      <div>
         <form id="login" class="form-inline">
           <input type="text" id='loginemail' placeholder="Email address" class="form-control">
           <input type="password" id='loginpassword' placeholder="Password" class="form-control">
           <input type="submit" value='Login' class="btn btn-primary">
         </form>
       </div>
+      </div>
 
 <!--       //==============================LOCATION SEARCH AND RETURN============================
       //================================================================ -->      
       <div class="form">
+      <div>
         <form id="allLocations" class="form-inline">
           <input type="text" id='locationName' placeholder="Name" class="form-control">
           <input type="hidden" id='locationLat' placeholder="Lat" >
           <input type="hidden" id='locationLng' placeholder="Lng">
           <input id="saveLoc" type="submit" value='Save location' class="btn btn-primary">
         </form>
+      </div>
       </div>
 
 <!--       //====================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
@@ -105,6 +110,7 @@
           <input id="pac-input" class="controls form-control" type="text" placeholder="Enter address">
           <!-- <input type="text" name='Search' placeholder="Search" class="form-control"> -->
           <input type="submit" value='Search' class="btn btn-primary" id="searchLocButton">
+        </form>
       </div>
       
     
@@ -134,10 +140,11 @@
           <input type="submit" id="submit" value='Edit' class="btn btn-primary">
         </form>
       </div>
-</div>
+
 
       <div id="index">
         <h1>Index</h1>
+      </div>
       </div>
   <!-- ================================= HIDDEN INPUTS ====================================== -->
         <input id="friendLat" placeholder="Lat" type="hidden">
@@ -146,8 +153,7 @@
         <div id="map-canvas" class="col-sm-12">
         </div>
       </div>
-      <div id="otherUserShow">
-      </div>
+      <div id="otherUserShow"></div>
     <!--   <div id="locationShow">
     </div> -->
   </main>

@@ -28,3 +28,7 @@ body { padding-top: 70px; }
 #userName {
 color: #74AFAD;
 }
+
+#locationName {
+  width: 100%;
+}
