@@ -17,3 +17,14 @@ body { padding-top: 70px; }
 .form input {
   margin: 2px;
 }
+
+.dropdown-menu {
+  height: auto;
+    max-height: 450px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
+
+#userName {
+color: #74AFAD;
+}

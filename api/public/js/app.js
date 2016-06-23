@@ -540,12 +540,12 @@ function navbarToggle() {
           
           $(users).each(function(index, user){
               
-              $('.dropdown-menu').append('<li id="userName">'+user.name+'</li>');
+              $('.dropdown-menu').append('</br><li id="userName">'+user.name+'</li>');
               $('.dropdown-menu').append('<li class="divider"></li>');
               
               $(users.locations).each(function(index, location){
             
-                  $('.dropdown-menu').append('<li id="'+location.lat+' '+location.long+'">'+location.name+'</li>');
+                  $('.dropdown-menu').append('<li id="'+location.lat+' '+location.long+'"><span class="glyphicon glyphicon-map-marker" style="display: inline-block;"></span>'+location.name+'</li>');
 
               });
               
