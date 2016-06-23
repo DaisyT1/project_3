@@ -139,8 +139,9 @@
         <h1>Index</h1>
       </div>
       <input type="text" id="friendLat" placeholder="Lat">
-      <button>Send</button>
       <input type="text" id="friendLong" placeholder="Long">
+      <input type="text" id="friendDestLat" placeholder="destination">
+      <input type="text" id="friendDestLong" placeholder="destination">
       <div id="row">
         <div id="map-canvas" class="col-sm-12">
         </div>
@@ -158,9 +159,17 @@
     //var socket = io.connect('https://nameless-escarpment-28913.herokuapp.com/');
 
     socket.on('chat message' , function(message){
-      var location = message.split(" ");
-      $("#friendLat").val(location[0]);
-      $("#friendLong").val(location[1]);
+      // var location = message.split(" ");
+      var socketMassage = {
+        actualLat: "",
+        actualLong: "",
+        destLat: "",
+        destLong: ""
+      };
+      $("#friendLat").val(message.actualLat);
+      $("#friendLong").val(message.actualLong);
+      $("#friendDestLat").val(message.destLat);
+      $("#friendDestLong").val(message.destLong);
     });
 
   </script>

@@ -1,5 +1,19 @@
 $(function(){  
-  
+
+  var markers = [];
+  var marker;
+  var friendMarker;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var directionsService = new google.maps.DirectionsService;
+  var address;
+  var myLocation;
+  var socketMassage = {
+    actualLat: "",
+    actualLong: "",
+    destLat: "",
+    destLong: ""
+  };
+
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
    if (token) {
@@ -18,9 +32,10 @@ var token = window.localStorage.getItem('token');
 //===============================  FUNCTION FOR LOCATIONS PER USER AND SERCHING ON MAP ON CLICK LINE 88 HTML
   $(".dropdown-menu").on("click", "li", function(event){
        // console.log(this.id);
-       var res = this.id.split(" ");
+       // socketMassage = this.id.split(" ");
        //console.log(res[0],res[1]);
-       getDirectionsMyLocationToSomewhere(res[0],res[1]);
+
+       getDirectionsMyLocationToSomewhere(socketMassage.actualLat,socketMassage.actualLong);
    });
 
 //================================================================  
@@ -301,19 +316,6 @@ function navbarToggle() {
 //====================================================================================
 //====================================================================================
 
-
-// navigator.geolocation.getCurrentPosition(function(position){
-
-//   var latlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
-
-//   var marker = new google.maps.Marker({
-//       position: latlng,
-//       map: map,
-//       icon: './images/marker.png'
-//   });
-
-// });
-
 //====================================================================================
 //====================================================================================
 //====================================================================================
@@ -322,11 +324,7 @@ function navbarToggle() {
 //====================================================================================
 //====================================================================================
 
-  var markers = [];
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var directionsService = new google.maps.DirectionsService;
-  var address;
-  var myLocation;
+
 
   $('#locateMe').click( function(e) {
     e.preventDefault(); /*your_code_here;*/
@@ -356,7 +354,7 @@ function navbarToggle() {
 
         var latlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
 
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: latlng,
             map: map,
             icon: './images/marker.png'
@@ -364,34 +362,6 @@ function navbarToggle() {
 
       });
   }
-
-  // $("#getLocation").click(function(){
-  //     // navigator.geolocation.getCurrentPosition(function(position){
-
-  //     //   // console.log(position.coords.latitude);
-  //     //   // console.log(position.coords.longitude);
-  //     //   getLocationFromLatLng(position.coords.latitude,position.coords.longitude);
-  //     //   console.log(myLocation);
-        
-  //     //   myLocation = myLocation.replace(", Reino Unido", "");
-
-  //     //   console.log(myLocation);
-  //     //   $('#start')
-  //     //            .append($("<option></option>")
-  //     //             .attr("value",myLocation)
-  //     //             .text("My location")); 
-
-  //     // });
-  //     getMyLocation();
-  // });
-  
-  // directionsDisplay.setMap(map);
-  // directionsDisplay.setPanel(document.getElementById('direction-panel'));
-
-  // var control = document.getElementById('locations-panel');
-  // // control.style.display = 'block';
-  // // map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
-  // //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   // // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
@@ -456,46 +426,44 @@ function navbarToggle() {
   (function test() {
     console.log("test");
   });
-  // function getLocationFromLatLng(lat,lng) {
-  //       $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +" ,"+lng+"&key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q", 
-  //         function(location){
-  //            //console.log(location.results[0].formatted_address);
-  //            //consoleLocation(location.results[0].formatted_address);
-  //            myLocation = location.results[0].formatted_address;
-  //   });
-  // }
-
-  // // var onChangeHandler = function() {
-  // //   calculateAndDisplayRoute(directionsService, directionsDisplay);
-  // // };
-  // // document.getElementById('start').addEventListener('change', onChangeHandler);
-  // // document.getElementById('end').addEventListener('change', onChangeHandler);
-  
-  // function getDirections() {
-  //   calculateAndDisplayRoute(directionsService, directionsDisplay);
-  // };
-  
-  function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-    directionsDisplay.setMap(map);
-
-    directionsService.route({
-      origin: "se1 3sa",
-      destination: "wr3 8dp",
-      travelMode: google.maps.TravelMode.WALKING
-    }, function(response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });
-
-  }
 
   function getDirectionsMyLocationToSomewhere(lat, long) {
+      socket.emit('chat message', myPostion);
+      navigator.geolocation.getCurrentPosition(function(position){
+        var destiLatLng = lat+","+long;
+        var originLatlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
 
+          directionsDisplay.setMap(map);
 
+          directionsService.route({
+            origin: originLatlng,
+            destination: destiLatLng,
+            // "33.661565,73.041330",
+            travelMode: google.maps.TravelMode.WALKING
+          }, function(response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(response);
+              var leg = response.routes[ 0 ].legs[ 0 ];
+              //makeMarker( leg.start_location, '/images/study.png', "title" );
+              makeMarker( leg.end_location, '/images/marker.png', 'title' );
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+          });
+          function makeMarker( position, icon, title ) {
+           new google.maps.Marker({
+            position: position,
+            map: map,
+            icon: icon,
+            title: title
+           });
+          }   
+      });
+
+      socket.emit('chat message', myPostion);    
+  };
+
+  function getDirectionsFriendLocationToSomewhere(lat, long) {
 
       navigator.geolocation.getCurrentPosition(function(position){
         var destiLatLng = lat+","+long;
@@ -511,12 +479,22 @@ function navbarToggle() {
           }, function(response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
+              var leg = response.routes[ 0 ].legs[ 0 ];
+              //makeMarker( leg.start_location, '/images/study.png', "title" );
+              makeMarker( leg.end_location, '/images/marker.png', 'title' );
             } else {
               window.alert('Directions request failed due to ' + status);
             }
           });
-
-      });      
+          function makeMarker( position, icon, title ) {
+           new google.maps.Marker({
+            position: position,
+            map: map,
+            icon: icon,
+            title: title
+           });
+          }   
+      });    
   };
 
   function loadUserDropDownLocation(user) {
@@ -553,16 +531,17 @@ function navbarToggle() {
         var myPostion = position.coords.latitude+" "+position.coords.longitude
         socket.emit('chat message', myPostion);
         //socket.broadcast.emit('friend location', position.coords.longitude);
-
-        if (marker) {
+        friendMarker
+        if (marker != undefined) {
           // Marker already created - Move it
           marker.setPosition(newPoint);
         }
         else {
           // Marker does not exist - Create it
-          var marker = new google.maps.Marker({
+          marker = new google.maps.Marker({
             position: newPoint,
             map: map,
+            draggable: true,
             icon: '/images/study.png'
           });
         }
@@ -593,40 +572,46 @@ function navbarToggle() {
       } else {
           trackMyFriend()
       }
-
   };
 
   function trackMyFriend() {
       navigator.geolocation.getCurrentPosition(function(position) {  
         var newPoint = new google.maps.LatLng($("#friendLat").val(), 
                                               $("#friendLong").val());
+
+        if ($(#friendDest).val() == "") {
+          console.log("friend has no dest yet");
+        } else {
+          console.log("friend has dest");
+          $(#friendDest).val("");
+        };
         
-        if (marker) {
+        if (friendMarker != undefined) {
           // Marker already created - Move it
-          marker.setPosition(newPoint);
+          friendMarker.setPosition(newPoint);
         }
         else {
           // Marker does not exist - Create it
-          var marker = new google.maps.Marker({
+          friendMarker = new google.maps.Marker({
             position: newPoint,
             map: map,
+            draggable: true,
             icon: '/images/Maradona.png'
           });
-        }
+        };
 
         var infoWindow = new google.maps.InfoWindow({
           content: 'My Friend'
         });
 
         // Opens the InfoWindow when marker is clicked.
-        marker.addListener('click', function() {
-          infoWindow.open(map, marker);
+        friendMarker.addListener('click', function() {
+          infoWindow.open(map, friendMarker);
         });
 
         // Center the map on the new position
         map.setCenter(newPoint);
       }); 
-
 
       // Call the autoUpdate() function every 5 seconds
       setTimeout(startTrackMyFriend, 3000);
