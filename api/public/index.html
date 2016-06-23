@@ -29,7 +29,9 @@
 <!--       //==============================MISHAL============================
       //================================================================ -->  
         <a class="navbar-brand" href="#" id="locateMe"> <img src="http://www.5days2016.es/images/iconos/location-icon.png" height="25" width="25"> </a>
-       
+       <a class="navbar-brand" href="#" id="locateMyFriend"> <img src="https://cdn3.iconfinder.com/data/icons/gray-user-toolbar/512/genealogy-512.png" height="25" width="25"> </a>
+
+
 <!--       //==============================MISHAL============================
      //================================================================ --> 
         <a class="navbar-brand" href="#" id="brand">Locamate</a>
@@ -97,7 +99,7 @@
           <input type="submit" value='Add' class="btn btn-primary">
       </div>
       
-      <!-- <input type="button" id="testBt" name="" value="aaa"> -->
+
 
     
 <!--       //==============================MISHAL============================
@@ -123,6 +125,9 @@
       <div id="index">
         <h1>Index</h1>
       </div>
+      <input type="text" id="friendLat" placeholder="Lat">
+      <button>Send</button>
+      <input type="text" id="friendLong" placeholder="Long">
       <div id="row">
         <div id="map-canvas" class="col-sm-12">
         </div>
@@ -133,21 +138,21 @@
   </main>
   <script>
     var socket = io.connect('http://localhost:3000');
-    // var socket = io();
+
+    //heroku ready
+    //var socket = io.connect('https://nameless-escarpment-28913.herokuapp.com/');
 
     socket.on('chat message' , function(message){
-
-      // var messageElement = $("<li></li>").html(message);
-      // $("#messages").prepend(messageElement);
-      console.log(message)
+      var location = message.split(" ");
+      $("#friendLat").val(location[0]);
+      $("#friendLong").val(location[1]);
     });
 
-    $('sendMsg').click(function(e){
-        // socket.emit('chat message', $('#m').val());
-        // $('#m').val('');
-        console.log("test")
+
+    $("button").click(function(){
+        event.preventDefault();
         socket.emit('chat message', "hello");
-        
+        //socket.broadcast.emit('chat message', "hello");
         return false;
     });
   </script>

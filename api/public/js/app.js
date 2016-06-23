@@ -3,6 +3,8 @@
 $(function(){  
   $(document).ready(function(){
 
+
+    
 //=================TOKENS===============//
 var token = window.localStorage.getItem('token');
 
@@ -26,11 +28,6 @@ var token = window.localStorage.getItem('token');
        //console.log(res[0],res[1]);
        getDirectionsMyLocationToSomewhere(res[0],res[1]);
    });
-
-  // $("ul").on('click', 'li', function () {
-  //    var id = this.id;
-  //    //play with the id
-  // });
 
 //================================================================  
 
@@ -278,12 +275,23 @@ function navbarToggle() {
 //====================================================================================
 //====================================================================================
 //====================================================================================
-//                                         MISHAL
+//                                         SOCKET
 //====================================================================================
 //====================================================================================
 //====================================================================================
 
 
+// navigator.geolocation.getCurrentPosition(function(position){
+
+//   var latlng = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+
+//   var marker = new google.maps.Marker({
+//       position: latlng,
+//       map: map,
+//       icon: './images/marker.png'
+//   });
+
+// });
 
 //====================================================================================
 //====================================================================================
@@ -309,9 +317,16 @@ function navbarToggle() {
 
   $('#locateMe').click( function(e) {
     e.preventDefault(); /*your_code_here;*/
-    getMyLocation(); 
+    //getMyLocation();
+    startTrack(); 
   });
 
+  $('#locateMyFriend').click( function(e) {
+    e.preventDefault(); /*your_code_here;*/
+    //getMyLocation();
+    startTrackMyFriend(); 
+  });
+  
   var canvas = document.getElementById("map-canvas");
 
   var mapOptions = {
@@ -515,5 +530,93 @@ function navbarToggle() {
         });
   };
 
- 
+  function startTrack() {
+      navigator.geolocation.getCurrentPosition(function(position) {  
+        var newPoint = new google.maps.LatLng(position.coords.latitude, 
+                                              position.coords.longitude);
+
+        // console.log(position.coords.latitude,position.coords.longitude);
+
+        var myPostion = position.coords.latitude+" "+position.coords.longitude
+        socket.emit('chat message', myPostion);
+        //socket.broadcast.emit('friend location', position.coords.longitude);
+
+        if (marker) {
+          // Marker already created - Move it
+          marker.setPosition(newPoint);
+        }
+        else {
+          // Marker does not exist - Create it
+          var marker = new google.maps.Marker({
+            position: newPoint,
+            map: map,
+            icon: '/images/study.png'
+          });
+        }
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: 'Me'
+        });
+
+        // Opens the InfoWindow when marker is clicked.
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
+
+        // Center the map on the new position
+        map.setCenter(newPoint);
+      }); 
+
+
+      // Call the autoUpdate() function every 5 seconds
+      setTimeout(startTrack, 5000);
+
+  };
+
+  function startTrackMyFriend() {
+
+      if ($("#friendLat").val() == "") {
+          alert("Sorry not online, go have a beer ...")
+      } else {
+          trackMyFriend()
+      }
+
+  };
+
+  function trackMyFriend() {
+      navigator.geolocation.getCurrentPosition(function(position) {  
+        var newPoint = new google.maps.LatLng($("#friendLat").val(), 
+                                              $("#friendLong").val());
+        
+        if (marker) {
+          // Marker already created - Move it
+          marker.setPosition(newPoint);
+        }
+        else {
+          // Marker does not exist - Create it
+          var marker = new google.maps.Marker({
+            position: newPoint,
+            map: map,
+            icon: '/images/Maradona.png'
+          });
+        }
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: 'My Friend'
+        });
+
+        // Opens the InfoWindow when marker is clicked.
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
+
+        // Center the map on the new position
+        map.setCenter(newPoint);
+      }); 
+
+
+      // Call the autoUpdate() function every 5 seconds
+      setTimeout(startTrackMyFriend, 3000);
+
+  };
 });
