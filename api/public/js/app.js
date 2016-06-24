@@ -377,7 +377,8 @@ function navbarToggle() {
         var marker = new google.maps.Marker({
             position: latlng,
             map: map,
-            icon: './images/marker.png'
+            icon: {url: './images/marker.png',
+                size: new google.maps.Size(20, 32) }
         });
 
       });
@@ -581,7 +582,7 @@ function navbarToggle() {
           var marker = new google.maps.Marker({
             position: newPoint,
             map: map,
-            icon: '/images/study.png'
+            icon: '/images/smiley-marker-orange.png'
           });
         }
 
@@ -628,7 +629,8 @@ function navbarToggle() {
           var marker = new google.maps.Marker({
             position: newPoint,
             map: map,
-            icon: '/images/Maradona.png'
+            icon: {url: '/images/hole-marker-greyblue.png',
+              size: new google.maps.Size(20, 32) }
           });
         }
 
