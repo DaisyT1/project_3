@@ -27,7 +27,7 @@ var token = window.localStorage.getItem('token');
        $.ajaxSetup({
            headers: { 'Authorisation': 'Bearer ' + token }
        });
-   }
+   }//hello
 
 //===============================
   $("form#register").on("submit", register);
