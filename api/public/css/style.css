@@ -76,29 +76,11 @@ form {
   text-align: center;
 }
 
-#btn-color {
-  background-color: #74AFAD;
+.form-holder .form .btn-primary {
+  background-color: #558C89;
   border-color: #ECECEA;
 }
 
-#btn-color:hover {
-    background-color: #D9853B;
-}
-
-#searchLocButton {
-  background-color: #74AFAD;
-  border-color: #ECECEA;
-}
-
-#searchLocButton:hover {
-    background-color: #D9853B;
-}
-
-#saveLoc {
-  background-color: #74AFAD;
-  border-color: #ECECEA;
-}
-
-#saveLoc:hover {
+.form-holder .form .btn-primary:hover {
     background-color: #D9853B;
 }
