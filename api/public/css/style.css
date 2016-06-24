@@ -20,60 +20,64 @@ body { padding-top: 70px; }
 
 .dropdown-menu {
   height: auto;
-    max-height: 450px;
-    overflow-y:scroll;
-    overflow-x: hidden;
+  max-height: 450px;
+  overflow-y:scroll;
+  overflow-x: hidden;
 }
 
 #userName {
-color: #74AFAD;
+  color: #74AFAD;
 }
 
 #locationName {
   width: 70%;
 }
 
+.navbar-brand img {
+  max-height: 160%;
+}
+
 .navbar-nav > li > .dropdown-menu {
-    margin-top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-radius: 6px;
-    width: 15em;
-    text-align: center;
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-radius: 6px;
+  width: 15em;
+  text-align: center;
   }
 
-  .locName {
-    cursor: pointer;
-    text-align: left;
-  }
+.locName {
+  cursor: pointer;
+  text-align: left;
+}
 
-  form {
-    text-align: center;
-  }
+form {
+  text-align: center;
+}
 
-  #btn-color {
-    background-color: #74AFAD;
-    border-color: #ECECEA;
-  }
+#btn-color {
+  background-color: #74AFAD;
+  border-color: #ECECEA;
+}
 
-  #btn-color:hover {
-      background-color: #D9853B;
-  }
+#btn-color:hover {
+    background-color: #D9853B;
+}
 
-  #searchLocButton {
-    background-color: #74AFAD;
-    border-color: #ECECEA;
-  }
+#searchLocButton {
+  background-color: #74AFAD;
+  border-color: #ECECEA;
+}
 
-  #searchLocButton:hover {
-      background-color: #D9853B;
-  }
+#searchLocButton:hover {
+    background-color: #D9853B;
+}
 
-  #saveLoc {
-    background-color: #74AFAD;
-    border-color: #ECECEA;
-  }
+#saveLoc {
+  background-color: #74AFAD;
+  border-color: #ECECEA;
+}
 
-  #saveLoc:hover {
-      background-color: #D9853B;
-  }
+#saveLoc:hover {
+    background-color: #D9853B;
+}
