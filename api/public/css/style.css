@@ -37,6 +37,27 @@ body { padding-top: 70px; }
   max-height: 160%;
 }
 
+.hover-button {
+  position: absolute;
+  z-index: 3;
+  bottom: 14px;
+  left: 14px;
+}
+.hover-button a {
+  margin: 6px;
+  float: right;
+  min-width: 112px;
+}
+.hover-button img {
+  margin-left: 10px;
+  /*float: right;*/
+  display: inline-block;
+}
+.hover-button .icon-label {
+  display: inline-block;
+  float: left;
+}
+
 .navbar-nav > li > .dropdown-menu {
   margin-top: 0;
   border-top-left-radius: 0;
