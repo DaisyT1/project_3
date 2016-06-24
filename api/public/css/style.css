@@ -17,3 +17,70 @@ body { padding-top: 70px; }
 .form input {
   margin: 2px;
 }
+
+.dropdown-menu {
+  height: auto;
+  max-height: 450px;
+  overflow-y:scroll;
+  overflow-x: hidden;
+}
+
+#userName {
+  color: #74AFAD;
+}
+
+#locationName {
+  width: 70%;
+}
+
+.navbar-brand img {
+  max-height: 160%;
+}
+
+.hover-button {
+  position: absolute;
+  z-index: 3;
+  bottom: 14px;
+  left: 14px;
+}
+.hover-button a {
+  margin: 6px;
+  float: right;
+  min-width: 112px;
+}
+.hover-button img {
+  margin-left: 10px;
+  /*float: right;*/
+  display: inline-block;
+}
+.hover-button .icon-label {
+  display: inline-block;
+  float: left;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-radius: 6px;
+  width: 15em;
+  text-align: center;
+  }
+
+.locName {
+  cursor: pointer;
+  text-align: left;
+}
+
+form {
+  text-align: center;
+}
+
+.form-holder .form .btn-primary {
+  background-color: #558C89;
+  border-color: #ECECEA;
+}
+
+.form-holder .form .btn-primary:hover {
+    background-color: #D9853B;
+}

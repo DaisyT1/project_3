@@ -26,22 +26,20 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-<!--       //==============================ADDED ON MENU TO GET MYLOCATION AND FRIEND LOCATIO============================
-      //================================================================ -->  
-        <a class="navbar-brand" href="#" id="locateMe"> <img src="http://www.5days2016.es/images/iconos/location-icon.png" height="25" width="25"> </a>
-       <a class="navbar-brand" href="#" id="locateMyFriend"> <img src="https://cdn3.iconfinder.com/data/icons/gray-user-toolbar/512/genealogy-512.png" height="25" width="25"> </a>
 
 
 <!--       //==============================MISHAL============================
      //================================================================ --> 
-        <a class="navbar-brand" href="#" id="brand">Locamate</a>
+        <a class="navbar-brand" href="#" id="brand"><img alt="LocaMate" src="images/locamate-logo-smiley.png"></a>
       <!-- Collect the nav links, forms, and other content for toggling -->
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#" id="locationButton">Add location</a></li>
-          <li><a href="#" id="addFriend">Find friends</a></li>
-          <li><a href="#" id="friendReq">Friend requests</a></li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Find friends<span class="caret"></span></a>
+              <ul class="dropdown-menu"></ul>
+          </li>
           <li><a href="#" id="regButton">Register</a></li>
           <li><a href="#" id="editProfButton">Edit profile</a></li>
           <li><a href="#" id="loginButton">Login</a></li>
@@ -54,6 +52,13 @@
   <!--//////////////////////// END OF NAVBAR ////////////////////////-->
   <main>
   <div class="container-fluid">
+  <!--       //==============================ADDED ON MENU TO GET MYLOCATION AND FRIEND LOCATIO============================
+        //================================================================ -->  
+     <div class="hover-button">
+          <a  class="btn btn-default" href="#" id="locateMe"><div class="icon-label">locate<br>me</div><img src="images/smiley-marker-orange.png" height="36"></a><br>
+          <a class="btn btn-default" href="#" id="locateMyFriend"><div class="icon-label">locate<br>mates</div><img src="images/marker-cluster.png" height="40" ></a>
+        </div>
+
     <div class="form-holder col-xs-9 col-xs-offset-1">
       <div class="form">
         <form id="register" class="form-inline">
@@ -62,48 +67,53 @@
           <input type="text" id='email' name="user[email]" placeholder="Email address" class="form-control">
           <input type="password" id='password' name="user[password]" placeholder="Password" class="form-control">
           <input type="password" id='passwordConf' name="user[passwordConfirmation]" placeholder="Password Confirmation" class="form-control">
-          <input type="submit" value='Register' class="btn btn-primary">
+          <input type="submit" value='Register' class="btn btn-primary" id="btn-color">
           </fieldset>
         </form>
       </div>
+  
       
-
       <div class="form">
+      <div>
         <form id="login" class="form-inline">
           <input type="text" id='loginemail' placeholder="Email address" class="form-control">
           <input type="password" id='loginpassword' placeholder="Password" class="form-control">
-          <input type="submit" value='Login' class="btn btn-primary">
+          <input type="submit" value='Login' class="btn btn-primary" id="btn-color">
         </form>
+      </div>
       </div>
 
 <!--       //==============================LOCATION SEARCH AND RETURN============================
       //================================================================ -->      
-      <div class="form2" id="allLocations">
-        <form id="allLocations" >
-          <input type="text" id='locationName' placeholder="Name">
-          <input type="text" id='locationLat' placeholder="Lat">
-          <input type="text" id='locationLng' placeholder="Lng">
-          <input type="submit" value='Add Location'>
+      <div class="form">
+      <div>
+        <form id="allLocations" class="form-inline">
+          <input type="text" id='locationName' placeholder="Name" class="form-control">
+          <input type="hidden" id='locationLat' placeholder="Lat" >
+          <input type="hidden" id='locationLng' placeholder="Lng">
+          <input id="saveLoc" type="submit" value='Save location' class="btn btn-primary" id="btn-color">
         </form>
       </div>
+      </div>
 
-<!--       //==============================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
+<!--       //====================LOCATIONS PER USER AND SERCHING ON MAP ON CLICK============================
       //================================================================ --> 
-      <div class="dropdown">
+<!--       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="#">Users and Locations</a></li>
             <li class="divider"></li>          
         </ul>
-      </div>
+      </div> -->
 
       <div class="form">
-        <form id="location">
+        <form id="location-search">
 
-          <input id="pac-input" class="controls form-control" type="text" placeholder="Search Box">
+          <input id="pac-input" class="controls form-control" type="text" placeholder="Enter address">
           <!-- <input type="text" name='Search' placeholder="Search" class="form-control"> -->
-          <input type="submit" value='Add' class="btn btn-primary">
+          <input type="submit" value='Search' class="btn btn-primary" id="searchLocButton">
+        </form>
       </div>
       
     
@@ -130,26 +140,28 @@
           placeholder="Password" class="form-control">
           <input type="password" name='passwordConfirmation' id="edit-passwordConfirmation" 
           placeholder="Password Confirmation" class="form-control">
-          <input type="submit" id="submit" value='Edit' class="btn btn-primary">
+          <input type="submit" id="submit" value='Edit' class="btn btn-primary" id="btn-color">
         </form>
       </div>
-</div>
+
 
       <div id="index">
         <h1>Index</h1>
       </div>
-      <input type="hidden" id="friendLat" placeholder="Lat">
-      <input type="hidden" id="friendLong" placeholder="Long">
-      <input type="hidden" id="friendDestLat" placeholder="destination">
-      <input type="hidden" id="friendDestLong" placeholder="destination">
+      </div>
+  <!-- ================================= HIDDEN INPUTS ====================================== -->
+        <input id="friendLat" placeholder="Lat" type="hidden">
+        <input id="friendLong" placeholder="Long" type="hidden">
+        <input type="hidden" id="friendDestLat" placeholder="destination">
+        <input type="hidden" id="friendDestLong" placeholder="destination">
+
       <div id="row">
         <div id="map-canvas" class="col-sm-12">
         </div>
       </div>
-      <div id="otherUserShow">
-      </div>
-      <div id="locationShow">
-    </div>
+      <div id="otherUserShow"></div>
+    <!--   <div id="locationShow">
+    </div> -->
   </main>
   <script>
     //NODEMON  ready

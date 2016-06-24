@@ -76,7 +76,6 @@ function createLocation() {
       }}
     })
     .done(function(data) {
-      
       console.log(data);
     });
     // console.log("test");
@@ -186,7 +185,7 @@ function getElements(user, div){
   "<p>" + user._id  + "</p>" +
   "<p>" + user.name  + "</p>" +
   "<p>" + user.email  + "</p>" +
-  "<button class='btn btn-primary' id='locationButton' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
+  "<button class='btn btn-primary' id='locationButton' id='btn-color' onclick="+'showLocations("'+user._id+'")'+">"+user.name+"</button>" +
   "<button class='btn btn-primary'>Send</button>" + 
   "<button class='btn btn-primary'>Accept</button>"
   $(div).append(person);
@@ -220,8 +219,13 @@ function showCurrentUser() {
 
  if(user) {
    $('.nav').append("<li><a href='#'>" + user.name + "</a></li>");
- } else {
-   $('.nav').append("<li><a href='#'>Signin</a></li>")
+   $('#loginButton').hide();
+ } 
+ if (!user) {
+   $('#logoutButton').hide();
+   $('#editProfButton').hide();
+   $('.dropdown-toggle').hide();
+   $('#locationButton').hide();
  }
 }
 
@@ -271,6 +275,8 @@ function hideAllDivs(){
     $("#editProfile").hide();
     $("#login").hide();
     $("#logout").hide();
+    $("#allLocations").hide();
+    $("#location-search").hide();
 }
 
 function hideAllDivsSlow(){
@@ -280,6 +286,8 @@ function hideAllDivsSlow(){
     $("#editProfile").hide("slow");
     $("#login").hide("slow");
     $("#logout").hide("slow");
+    $("#allLocations").hide("slow");
+    $("#location-search").hide("slow");
 }
 
 function navbarToggle() {
@@ -289,8 +297,8 @@ function navbarToggle() {
     $('.navbar-collapse').removeClass('in');
   })
   $("#locationButton").click(function(){
+    $("#location-search").slideToggle("medium");
     $('.navbar-collapse').removeClass('in');
-    $("#location").slideToggle("medium");
   })
   $("#addFriend").click(function(){
     // $("#collapse").hide("slow");
@@ -299,10 +307,6 @@ function navbarToggle() {
     $("#map-canvas").slideToggle("slow");
     $('.navbar-collapse').removeClass('in');
   })
-  $("#friendReq").click(function(){
-    $("#").slideToggle("medium");
-    $('.navbar-collapse').removeClass('in');
- })
   $("#regButton").click(function(){
     $("#register").slideToggle("medium");
     $('.navbar-collapse').removeClass('in');
@@ -319,9 +323,22 @@ function navbarToggle() {
     $("#logout").slideToggle("medium");
     $('.navbar-collapse').removeClass('in');
   })
+  $("#logoutButton").click(function(){
+    $("#logout").slideToggle("medium");
+    $('.navbar-collapse').removeClass('in');
+  })
   $('#map-canvas').click(function(){
       $('.navbar-collapse').removeClass('in');
       hideAllDivsSlow()
+  })
+  $("#searchLocButton").click(function(){
+    $("#location-search").hide("medium");
+    $("#allLocations").show("slow");
+    $('.navbar-collapse').removeClass('in');
+  })
+  $("#saveLoc").click(function(){
+    $("#allLocations").hide("medium");
+    window.location.reload();
   })
 }
 
@@ -373,7 +390,7 @@ function navbarToggle() {
     zoom:10,
     center: new google.maps.LatLng(51.506178,-0.088369),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: myStyles
+    styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]
   }
 
   var map = new google.maps.Map(canvas , mapOptions);
@@ -387,7 +404,8 @@ function navbarToggle() {
         marker = new google.maps.Marker({
             position: latlng,
             map: map,
-            icon: './images/marker.png'
+            icon: {url: './images/marker.png',
+                size: new google.maps.Size(20, 32) }
         });
 
       });
@@ -503,7 +521,7 @@ function navbarToggle() {
                   position: leg.start_location,
                   map: map,
                   //draggable: true,
-                  icon: '/images/marker.png'
+                  icon: '/images/hole-marker-orange.png'
                 });
               }
               if (destinationMarker != undefined) {
@@ -515,11 +533,11 @@ function navbarToggle() {
                   position: leg.end_location,
                   map: map,
                   //draggable: true,
-                  icon: '/images/marker.png'
+                  icon: '/images/hole-marker-greyblue.png'
                 });
               }
             } else {
-              window.alert('Directions request failed due to ' + status);
+              //window.alert('Directions request failed due to ' + status);
             }
           });
           socketMassage.lat = position.coords.latitude;
@@ -571,7 +589,7 @@ function navbarToggle() {
                   position: leg.start_location,
                   map: map,
                   draggable: true,
-                  icon: '/images/marker.png'
+                  icon: '/images/hole-marker-orange.png'
                 });
               }
               if (friendDestinationMarker != undefined) {
@@ -583,14 +601,14 @@ function navbarToggle() {
                   position: leg.end_location,
                   map: map,
                   draggable: true,
-                  icon: '/images/marker.png'
+                  icon: '/images/hole-marker-greyblue.png'
                 });
               }
 
 
 
             } else {
-              window.alert('Directions request failed due to ' + status);
+              //window.alert('Directions request failed due to ' + status);
             }
           });
       });    
@@ -606,12 +624,12 @@ function navbarToggle() {
           
           $(users).each(function(index, user){
               
-              $('.dropdown-menu').append('<li id="userName">'+user.name+'</li>');
+              $('.dropdown-menu').append('</br><li id="userName">'+user.name+'</li>');
               $('.dropdown-menu').append('<li class="divider"></li>');
               
               $(users.locations).each(function(index, location){
             
-                  $('.dropdown-menu').append('<li id="'+location.lat+' '+location.long+'">'+location.name+'</li>');
+                  $('.dropdown-menu').append('<li class="locName" id="'+location.lat+' '+location.long+'"><span class="glyphicon glyphicon-map-marker"></span>'+location.name+'</li>');
 
               });
               
@@ -645,7 +663,7 @@ function navbarToggle() {
             position: newPoint,
             map: map,
             draggable: true,
-            icon: '/images/study.png'
+            icon: '/images/smiley-marker-orange.png'
           });
         }
 
@@ -694,7 +712,7 @@ function navbarToggle() {
               position: newPoint,
               map: map,
               draggable: true,
-              icon: '/images/Maradona.png'
+              icon: '/images/smiley-marker-greyblue.png'
             });
           };
 
