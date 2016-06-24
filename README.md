@@ -40,12 +40,15 @@ Users must be able to register/login in order to use the app
 
 Once the user is logged, the app allows user to do the operations below:
 - Search Location:
+
 ![The LocaMate mainscreen](https://raw.githubusercontent.com/PatHadley/scratchpad/master/locamate-search-screenshot.png)
         
-- Check user current location and see where they are along the journey, also see friend's route display on the map
+- Check user current location and see where they are along the journey, also see friend's route display on the map:
+
 ![The LocaMate friends list (with locations)] (https://raw.githubusercontent.com/PatHadley/scratchpad/master/locamate-friends-screenshot.png)
 
-- Access to the friend’s profile and see where is the location to meet up.
+- Access to the friend’s profile and see where is the location to meet up:
+
 ![The LocaMate routes for two users](https://raw.githubusercontent.com/PatHadley/scratchpad/master/locamate-routes-screenshot.png)
 
 Feedback welcome. We hope you enjoy using it!
