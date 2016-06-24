@@ -65,7 +65,7 @@ var token = window.localStorage.getItem('token');
 function createLocation() {
     event.preventDefault();
 
-    var url = "http://localhost:3000/api/"+thisUser._id+"/locations"
+    var url = "api/"+thisUser._id+"/locations"
     $.ajax({
       url: url,
       type:'post',
@@ -88,7 +88,7 @@ function showLocations(user) {
   if (user == "current") {
       user = thisUser._id;
   }
-  var url = "http://localhost:3000/api/"+user+"/locations"
+  var url = "api/"+user+"/locations"
 
   $.get(url , function(locations) {
       $(locations).each(function(index, location){
@@ -118,7 +118,7 @@ function showLocations(user) {
 function register(){
   event.preventDefault();
   $.ajax({
-    url:'http://localhost:3000/api/register',
+    url:'api/register',
     type:'post',
     data: { user: {
       "name": $("input#name").val(),
@@ -140,7 +140,7 @@ function register(){
 function login(){
   event.preventDefault();
   console.log('hello')
-    $.post("http://localhost:3000/api/login" , {
+    $.post("api/login" , {
       "email": $("input#loginemail").val(),
       "password": $("input#loginpassword").val()
     },
@@ -172,7 +172,7 @@ function login(){
 //==========================USERS INDEX=================================
   
 function getUsers() {
-  $.get("http://localhost:3000/api/users" , function(users) {
+  $.get("api/users" , function(users) {
     $(users.users).each(function(index, user){
       loadUserDropDownLocation(user._id)
       // getElements(user , "#index")
@@ -233,7 +233,7 @@ function showCurrentUser() {
 function editUser(){
   $.ajax({
     method: 'get',
-    url: 'http://localhost:3000/users/:id'+$(this).data().id
+    url: 'users/:id'+$(this).data().id
   }).done(function(user){
     $("input#edit-name").val(user.name),
     $("input#edit-email").val(user.email),
@@ -255,7 +255,7 @@ var updateUser = function(){
   };
   $.ajax({
     method: 'patch',
-    url: 'http://localhost:3000/users/:id'+$(this).data().id,
+    url: 'users/:id'+$(this).data().id,
     data: user
   }).done(function(data){
     // not ideal
@@ -535,8 +535,10 @@ function navbarToggle() {
   function getDirectionsFriendLocationToSomewhere() {
 
       navigator.geolocation.getCurrentPosition(function(position){
-        var destiLatLng = socketMassage.destLat+","+socketMassage.destLong;
+        var destiLatLng =  $("#friendDestLat").val()+","+$("#friendDestLong").val();
         var originLatlng = new google.maps.LatLng( position.coords.latitude,position.coords.longitude);
+
+    
 
           directionsDisplay = new google.maps.DirectionsRenderer({
               polylineOptions: {
@@ -599,7 +601,7 @@ function navbarToggle() {
       if (user == "current") {
           user = thisUser._id;
       }
-      var url = "http://localhost:3000/api/"+user+"/locations"
+      var url = "api/"+user+"/locations"
       $.get(url , function(users) {
           
           $(users).each(function(index, user){
