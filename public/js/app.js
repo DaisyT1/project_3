@@ -299,6 +299,7 @@ function navbarToggle() {
   $("#locationButton").click(function(){
     $("#location-search").slideToggle("medium");
     $('.navbar-collapse').removeClass('in');
+    searchBox.setBounds(map.getBounds()); 
   })
   $("#addFriend").click(function(){
     // $("#collapse").hide("slow");
@@ -411,15 +412,17 @@ function navbarToggle() {
       });
   }
 
+  getMyLocation();
+
   // // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   
   // Bias the SearchBox results towards current map's viewport.
-  map.addListener('bounds_changed', function() {
-    searchBox.setBounds(map.getBounds());
-  });
+  // map.addListener('bounds_changed', function() {
+  //   searchBox.setBounds(map.getBounds());
+  // });
 
   
   // Listen for the event fired when the user selects a prediction and retrieve
@@ -463,7 +466,10 @@ function navbarToggle() {
         bounds.extend(place.geometry.location);
       }
       //getLocationFromLatLng(place.geometry.location.lat(),place.geometry.location.lng());
-      console.log(place.geometry.location.lat(),place.geometry.location.lng());
+      //console.log(place.geometry.location.lat(),place.geometry.location.lng());
+      var lat = place.geometry.location.lat();
+      var lng = place.geometry.location.lng();
+      console.log(lat, lng);
       $("input#locationLat").val(place.geometry.location.lat());
       $("input#locationLng").val(place.geometry.location.lng());
     });
@@ -677,7 +683,7 @@ function navbarToggle() {
         });
 
         // Center the map on the new position
-        map.setCenter();
+        //map.setCenter();
       }); 
 
 
@@ -726,7 +732,7 @@ function navbarToggle() {
           });
 
           // Center the map on the new position
-          map.setCenter();
+          //map.setCenter();
         }); 
 
         if ($("#friendDestLat").val() == "") {

@@ -13,10 +13,8 @@ var io = require('socket.io')(http);
 // var Location = require('./models/location');
 // Location.collection.drop();
 
-// var User = require('./models/user');
-// User.collection.drop();
-
 mongoose.connect( process.env.MONGODB_URI || 'mongodb://localhost/project3');
+ 
 
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
@@ -36,15 +34,17 @@ app.use(methodOverride(function(req, res){
 
 io.on('connection', function(socket){
   console.log('a user connected');
+
   // var room = 'buddies';
   // socket.join(room);
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+
   socket.on('chat message' , function(data) {
       //io.to('buddies').emit('chat message' , data);
-      io.emit('chat message' , data);
-      //socket.broadcast.emit('chat message' , data);
+      socket.broadcast.emit('chat message' , data);
   });
 
 });
@@ -52,6 +52,7 @@ io.on('connection', function(socket){
 
 
 app.use("/api" , routes);
+
 
 // //THIS IS FOR LOCAL NODEMONNNNNNNNNNN
 // app.listen(port , function(){
@@ -68,14 +69,6 @@ var port = process.env.PORT || 3000;
 http.listen(port, function(){
   console.log('listening on *:3000');
 });
-
-// //THIS IS FOR HEROKU SERVER
-// var port = process.env.PORT;
-// http.listen(port, function(){
-//   console.log('listening on *:3000');
-// });
-
-
 
 // // sending to sender-client only
 //  socket.emit('message', "this is a test");
@@ -100,3 +93,4 @@ http.listen(port, function(){
 
 //  // sending to individual socketid
 //  socket.broadcast.to(socketid).emit('message', 'for your eyes only');
+

@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="./css/reset.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
   
   <script src="/socket.io/socket.io.js"></script>
@@ -26,7 +26,6 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-
 
 <!--       //==============================MISHAL============================
      //================================================================ --> 
@@ -165,10 +164,10 @@
   </main>
   <script>
     //NODEMON  ready
-    var socket = io.connect('http://localhost:3000');
+    //var socket = io.connect('http://localhost:3000');
 
     //heroku ready
-    //var socket = io.connect('https://nameless-escarpment-28913.herokuapp.com/');
+    var socket = io.connect('https://nameless-escarpment-28913.herokuapp.com/');
 
     socket.on('chat message' , function(message){
       // var location = message.split(" ");
